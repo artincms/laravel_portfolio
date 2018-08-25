@@ -16,7 +16,7 @@ Laravel 5.5|5.6
 <div class="highlight highlight-source-shell"><pre>composer require artincms/laravel_portfolio</pre></div>
 <h6>publish vendor</h6>
  <div class="highlight highlight-text-html-php"><pre>
- $ php artisan vendor:publish --provider="ArtinCMS\LGS\LPMServiceProvider" --force
+ $ php artisan vendor:publish --provider="ArtinCMS\LPM\LPMServiceProvider" --force
 </pre> </div>
  <h6>migrate tabales</h6>
   <div class="highlight highlight-text-html-php"><pre>
@@ -39,7 +39,7 @@ for use portfolio manager
 backend url is : 
  <div class="highlight highlight-text-html-php">
  <pre>
- http://yourDomain/LGS/Portfolio
+ http://yourDomain/LPM/Portfolio
   </pre> 
   </div>
 after you define porfoli for show all portfolio can use this
