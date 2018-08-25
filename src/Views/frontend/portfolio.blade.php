@@ -1,7 +1,7 @@
 <div class="col-md-12">
     <div id="gallery">
         <div>
-            <button class=" btn filter btn-primary" data-filter="all">@lang('laravel_gallery_system.all')</button>
+            <button class=" btn filter btn-primary" data-filter="all">@lang('laravel_portfolio.all')</button>
             @foreach($filters as $filter)
             @if(isset($filter['faqs']))
             @if(count($filter['faqs'])>0)

@@ -1,7 +1,7 @@
 <?php
 if (!function_exists('LPM_ConvertNumbersEntoFa'))
 {
-    function LGS_ConvertNumbersEntoFa($matches)
+    function LPM_ConvertNumbersEntoFa($matches)
     {
         $farsi_array = array('۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹');
         $english_array = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
@@ -10,7 +10,7 @@ if (!function_exists('LPM_ConvertNumbersEntoFa'))
 }
 if (!function_exists('LPM_ConvertNumbersFatoEn'))
 {
-    function LGS_ConvertNumbersFatoEn($matches)
+    function LPM_ConvertNumbersFatoEn($matches)
     {
         $farsi_array = array('۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹');
         $english_array = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
@@ -58,11 +58,11 @@ if (!function_exists('createPortfolio'))
 {
     function createPortfolio($lang_id,$route_name)
     {
-        $items = \ArtinCMS\LGS\Model\Portfilio::with('tags')->where('lang_id',$lang_id)->
+        $items = \ArtinCMS\LPM\Model\Portfilio::with('tags')->where('lang_id',$lang_id)->
         where('is_active','1')->
         orderBy('order','asc')->get();
         $filters = \ArtinCMS\LTS\Models\Tag::with('portfolios')->where('lang_id',$lang_id)->get();
-        $result= view("laravel_gallery_system::frontend.portfolio", compact('items','filters','route_name'))->render();
+        $result= view("laravel_portfolio::frontend.portfolio", compact('items','filters','route_name'))->render();
         return $result ;
     }
 }
@@ -71,7 +71,7 @@ if (!function_exists('createPortfolioItem'))
 {
     function createPortfolioItem($item_id,$route_name)
     {
-        $item = \ArtinCMS\LGS\Model\Portfilio::with('tags','files')->find(LFM_GetDecodeId($item_id));
+        $item = \ArtinCMS\LPM\Model\Portfilio::with('tags','files')->find(LFM_GetDecodeId($item_id));
         $images=[];
         if ($item->encode_file_id)
         {
@@ -81,8 +81,8 @@ if (!function_exists('createPortfolioItem'))
         {
             $images[] = LFM_GenerateDownloadLink('ID',$file->id);
         }
-        $relatedItems = \ArtinCMS\LGS\Model\PortfilioSimilar::with('portfolio')->where('item_id',LFM_GetDecodeId($item_id))->get();
-        $result= view("laravel_gallery_system::frontend.portfolioItem", compact('item','images','relatedItems','route_name'))->render();
+        $relatedItems = \ArtinCMS\LPM\Model\PortfilioSimilar::with('portfolio')->where('item_id',LFM_GetDecodeId($item_id))->get();
+        $result= view("laravel_portfolio::frontend.portfolioItem", compact('item','images','relatedItems','route_name'))->render();
         return $result ;
     }
 }

@@ -19,12 +19,14 @@
 <div class="row">
     <div class="col-md-12 project_images">
         <div class="text-center">
-            <h3 class="border-success"><span class="heading_border bg-success">@lang('laravel_gallery_system.related_projecets')</span></h3>
+            <h3 class="border-success"><span class="heading_border bg-success">@lang('laravel_portfolio.related_projecets')</span></h3>
         </div>
         @foreach($relatedItems as $related)
+        @if($related->portfolio)
             <div class="col-md-3">
                 <a href="{{route($route_name,['id'=>$related->portfolio->encode_id])}}"><img src="{{$related->portfolio->url}}" class="img-responsive"></a>
             </div>
+        @endif
         @endforeach
     </div>
 </div>
