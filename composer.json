@@ -1,0 +1,34 @@
+{
+    "name": "artincms/laravel_portfolio",
+    "description": "Official ArtinCMS.com Laravel Gallery Systems Package",
+    "keywords": ["laravel", "ArtinCMS", "Gallery System", "storage", "artincms.com","آرتین سی ام اس"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Adel.Raheli",
+            "email": "adel.raheli@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "ArtinCMS\\LPM\\": "src/"
+        },
+        "files": [
+            "src/Helpers/Functions/Portfolio.php"
+        ]
+
+    },
+    "require": {
+        "yajra/laravel-datatables-oracle": "~8.0",
+        "hashids/hashids": "^3.0",
+        "artincms/laravel_file_manager": "dev-master",
+        "artincms/laravel_tagable": "dev-master",
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "ArtinCMS\\LPM\\LPMServiceProvider"
+            ]
+        }
+    }
+}
