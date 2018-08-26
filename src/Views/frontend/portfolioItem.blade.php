@@ -1,3 +1,4 @@
+<h2>{!!$item->title!!}</h2>
 <div class="row details">
     <div class="col-md-6">
         <div class="col-md-5 col-sm-12 slider">
