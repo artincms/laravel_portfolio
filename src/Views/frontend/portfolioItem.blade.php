@@ -1,4 +1,8 @@
 <h2>{!!$item->title!!}</h2>
+<div class="backToportfolio pull-right" data-lang_id="{{$lang_id}}">
+    <i style="font-size:25px;cursor:pointer" class="fa fa-level-up img thumbnail-back"></i>
+</div>
+<div style="clear:both"></div>
 <div class="row details">
     <div class="col-md-6">
         <div class="col-md-5 col-sm-12 slider">
@@ -25,9 +29,11 @@
         @foreach($relatedItems as $related)
         @if($related->portfolio)
             <div class="col-md-3">
-                <a href="{{route($route_name,['id'=>$related->portfolio->encode_id])}}"><img src="{{$related->portfolio->url}}" class="img-responsive"></a>
+                <a href="#"  data-item_id="{{$related->portfolio->id}}" data-lang_id="{{$lang_id}}"  class="showPortfolioItem"><img src="{{$related->portfolio->url}}" class="img-responsive"></a>
             </div>
         @endif
         @endforeach
     </div>
 </div>
+<script type="text/javascript"  src="{{ asset('vendor/josh/vendors/owl-carousel/owl.carousel.js') }}"></script>
+<script type="text/javascript"  src="{{ asset('vendor/josh/js/carousel.js') }}"></script>

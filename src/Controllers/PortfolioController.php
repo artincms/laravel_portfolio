@@ -329,7 +329,7 @@ class PortfolioController extends Controller
         $item->save();
         $saveDefaultFile = LFM_SaveSingleFile($item, 'default_img', 'LoadDefaultImg', 'default_img_options');
         $savePortfolioFiles = LFM_SaveMultiFile($item, 'editPortfolioFile', 'image', 'files', 'sync');
-        $res['tag'] = LTS_saveTag($item, $request->tag, 'tags', 'tags', 'sync');
+        $res['tag'] = LTS_saveTag($item, $request->tag, 'tag', 'tags', 'sync');
         $res =
             [
                 'success'     => true,
@@ -416,4 +416,19 @@ class PortfolioController extends Controller
 
         return null;
     }
+
+    public function getPortfolioAjax(Request $request)
+    {
+        $lang_id = $request->lang_id ;
+        return createPortfolio($lang_id) ;
+    }
+
+    public function getPortfolioItemAjax(Request $request)
+    {
+        $item_id = $request->item_id ;
+        $lang_id = $request->lang_id ;
+        return createPortfolioItem($item_id,$lang_id) ;
+    }
+
+
 }

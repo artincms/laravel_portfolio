@@ -56,22 +56,24 @@ if (!function_exists('faq_sampleLang'))
 }
 if (!function_exists('createPortfolio'))
 {
-    function createPortfolio($lang_id,$route_name)
+    function createPortfolio($lang_id)
     {
         $items = \ArtinCMS\LPM\Model\Portfilio::with('tags')->where('lang_id',$lang_id)->
         where('is_active','1')->
         orderBy('order','asc')->get();
         $filters = \ArtinCMS\LTS\Models\Tag::with('portfolios')->where('lang_id',$lang_id)->get();
-        $result= view("laravel_portfolio::frontend.portfolio", compact('items','filters','route_name'))->render();
+        $result['html']= view("laravel_portfolio::frontend.portfolio", compact('items','filters','lang_id'))->render();
+        $result['script']= view("laravel_portfolio::frontend.portJavascript")->render();
+        $result['success']=true;
         return $result ;
     }
 }
 
 if (!function_exists('createPortfolioItem'))
 {
-    function createPortfolioItem($item_id,$route_name)
+    function createPortfolioItem($item_id,$lang_id)
     {
-        $item = \ArtinCMS\LPM\Model\Portfilio::with('tags','files')->find(LFM_GetDecodeId($item_id));
+        $item = \ArtinCMS\LPM\Model\Portfilio::with('tags','files')->find($item_id);
         $images=[];
         if ($item->encode_file_id)
         {
@@ -81,8 +83,9 @@ if (!function_exists('createPortfolioItem'))
         {
             $images[] = LFM_GenerateDownloadLink('ID',$file->id);
         }
-        $relatedItems = \ArtinCMS\LPM\Model\PortfilioSimilar::with('portfolio')->where('item_id',LFM_GetDecodeId($item_id))->get();
-        $result= view("laravel_portfolio::frontend.portfolioItem", compact('item','images','relatedItems','route_name'))->render();
+        $relatedItems = \ArtinCMS\LPM\Model\PortfilioSimilar::with('portfolio')->where('item_id',$item_id)->get();
+        $result['html'] = view("laravel_portfolio::frontend.portfolioItem", compact('item','images','relatedItems','lang_id'))->render();
+        $result['success'] = true ;
         return $result ;
     }
 }

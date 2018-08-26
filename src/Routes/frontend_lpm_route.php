@@ -1,5 +1,5 @@
 <?php
-
-
-Route::group(['prefix' => config('laravel_gallery_system.frontend_lgs_route_prefix'), 'namespace' => 'ArtinCMS\LGS\Controllers', 'middleware' => config('laravel_gallery_system.frontend_lgs_middlewares')], function () {
+Route::group(['prefix' => config('laravel_portfolio.frontend_lpm_route_prefix'), 'namespace' => 'ArtinCMS\LPM\Controllers', 'middleware' => config('laravel_portfolio.frontend_lpm_middlewares')], function () {
+    Route::post('getPortfolioAjax', ['as' => 'LPM.getPortfolioAjax', 'uses' => 'PortfolioController@getPortfolioAjax']);
+    Route::post('getPortfolioItemAjax', ['as' => 'LPM.getPortfolioItemAjax', 'uses' => 'PortfolioController@getPortfolioItemAjax']);
 });
