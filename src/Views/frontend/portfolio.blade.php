@@ -23,8 +23,3 @@
         </div>
     </div>
 </div>
-<script type="text/javascript"  src="{{ asset('vendor/josh/js/portfolio.js') }}"></script>
-<script type="text/javascript"  src="{{ asset('vendor/josh/vendors/mixitup/src/jquery.mixitup.js') }}"></script>
-<script type="text/javascript"  src="{{ asset('vendor/josh/vendors/fancybox/source/jquery.fancybox.pack.js') }}"></script>
-<script type="text/javascript"  src="{{ asset('vendor/josh/vendors/fancybox/source/helpers/jquery.fancybox-buttons.js') }}"></script>
-<script type="text/javascript"  src="{{ asset('vendor/josh/vendors/fancybox/source/helpers/jquery.fancybox-media.js') }}"></script>
