@@ -56,13 +56,13 @@ if (!function_exists('faq_sampleLang'))
 }
 if (!function_exists('createPortfolio'))
 {
-    function createPortfolio($lang_id)
+    function createPortfolio($lang_id,$dir)
     {
         $items = \ArtinCMS\LPM\Model\Portfilio::with('tags')->where('lang_id',$lang_id)->
         where('is_active','1')->
         orderBy('order','asc')->get();
         $filters = \ArtinCMS\LTS\Models\Tag::with('portfolios')->where('lang_id',$lang_id)->get();
-        $result['html']= view("laravel_portfolio::frontend.portfolio", compact('items','filters','lang_id'))->render();
+        $result['html']= view("laravel_portfolio::frontend.portfolio", compact('items','filters','lang_id','dir'))->render();
         $result['script']= view("laravel_portfolio::frontend.portJavascript")->render();
         $result['success']=true;
         return $result ;

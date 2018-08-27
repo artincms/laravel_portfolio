@@ -5,7 +5,7 @@
 <div style="clear:both"></div>
 <div class="row details">
     <div class="col-md-6">
-        <div class="col-md-5 col-sm-12 slider">
+        <div class="col-md-5 col-sm-12 slider" style="direction: ltr;">
             <div id="owl-demo" class="owl-carousel owl-theme">
                 @foreach($images as $image)
                 <div class="item">
