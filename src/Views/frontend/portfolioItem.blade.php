@@ -14,8 +14,7 @@
                 @endforeach
             </div>
             <script>
-                $(document).ready(function() {
-                    //new WOW().init();
+
                     var time = 7; // time in seconds
 
                     var $progressBar,
@@ -88,16 +87,6 @@
                         //start again
                         start();
                     }
-
-                    //uncomment this to make pause on mouseover
-                    // $elem.on('mouseover',function(){
-                    //   isPause = true;
-                    // })
-                    // $elem.on('mouseout',function(){
-                    //   isPause = false;
-                    // })
-
-                });
             </script>
         </div>
     </div>
