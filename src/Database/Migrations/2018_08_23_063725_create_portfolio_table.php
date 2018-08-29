@@ -16,7 +16,7 @@ class CreatePortfolioTable extends Migration
         Schema::create('lpm_portfolio', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title', 255);
-            $table->text('description')->nullable()->default(null);
+            $table->longText('description')->nullable()->default(null);
             $table->integer('default_img')->unsigned()->nullable()->default(null);
             $table->text('default_img_options')->nullable()->default(null);
             $table->integer('lang_id')->unsigned()->default(0);

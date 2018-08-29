@@ -258,7 +258,7 @@
         },
     };
     var create_portfolio_form_id = document.querySelector("#frm_create_portfolio");
-    init_validatejs(create_portfolio_form_id, create_portfolio_constraints, ajax_func_create_portfolio);
+    init_validatejs(create_portfolio_form_id, create_portfolio_constraints, ajax_func_create_portfolio,"#frm_create_portfolio",'.add_submit_buttons');
 
     function ajax_func_create_portfolio(formElement) {
         var formData = new FormData(formElement);
@@ -407,7 +407,7 @@
                     $('a[href="#edit_portfolio"]').click();
 
                     var edit_portfolio_form_id = document.querySelector("#frm_edit_portfolio");
-                    init_validatejs(edit_portfolio_form_id, create_portfolio_constraints, ajax_func_edit_portfolio);
+                    init_validatejs(edit_portfolio_form_id, create_portfolio_constraints, ajax_func_edit_portfolio,"#frm_edit_portfolio",'.edit_submit_buttons');
                 }
                 else {
                 }

@@ -1,0 +1,218 @@
+/* ---------- Portfolio Css ---------- */
+
+.carousel-inner .item>img {
+    width: 100%;
+}
+/* ---------- Gallery Css Start ---------- */
+#gallery {
+    margin-top: 20px;
+}
+/* ---------- //Gallery Css End---------- */
+/* ---------- Mix Css Start ---------- */
+.mix img {
+    width: 220px;
+    margin: 5px;
+}
+/* ---------- //Mix css End ---------- */
+/* ---------- Portfolio images Css ---------- */
+.thumb_zoom img {
+    -webkit-transition: all 1s ease;
+    /* Safari and Chrome */
+
+    -moz-transition: all 1s ease;
+    /* Firefox */
+
+    -o-transition: all 1s ease;
+    /* IE 9 */
+
+    -ms-transition: all 1s ease;
+    /* Opera */
+
+    transition: all 1s ease;
+}
+/* ---------- Thumb Zoom images hover Css Start ---------- */
+.thumb_zoom img:hover {
+    -webkit-transform: scale(1.45, 1.45);
+    /* Safari and Chrome */
+
+    -moz-transform: scale(1.45, 1.45);
+    /* Firefox */
+
+    -ms-transform: scale(1.45, 1.45);
+    /* IE 9 */
+
+    -o-transform: scale(1.45, 1.45);
+    /* Opera */
+
+    transform: scale(1.45, 1.45);
+    opacity: .3;
+}
+/* ---------- //Thumb Zoom images hover Css End ---------- */
+/* ---------- Thumb Zoom  Css Start ---------- */
+.thumb_zoom {
+    display: inline-block;
+    overflow: hidden;
+    padding: 0px !important;
+    margin: 5px;
+}
+/* ---------- //Thumb Zoom  Css End ---------- */
+/* ---------- Portfolio images Plus Icon Css Start ---------- */
+/* ---------- //Portfolio images Css End ---------- */
+/* ---------- Portfolio images Icon Section Start ---------- */
+/* ---------- Portfolio images Plus Icon Css Start ---------- */
+.fa-search-plus {
+    position: absolute;
+    z-index: 7;
+    top: 87px;
+    right: 57%;
+    left:0px;
+    color: #fff;
+    font-size: 17px !important;
+    background-color: #01bc8c;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    padding-top: 8px;
+    padding-right: 10px;
+    opacity: 0.75;
+}
+/* ---------- //Portfolio images Plus Icon Css End ---------- */
+/* ---------- Portfolio images Link Icon Css Start ---------- */
+.fa-link {
+    position: absolute;
+    z-index: 7;
+    top: 87px;
+    right: 120%;
+    left: 0;
+    color: #fff;
+    font-size: 17px !important;
+    background-color: #01bc8c;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    padding-top: 8px;
+    padding-right: 10px;
+    opacity: 0.75;
+}
+/* ---------- //Portfolio images Link Icon Css End ---------- */
+/* ---------- //Portfolio images Icon Section End ---------- */
+@media(max-width:900px) {
+    .fa-search-plus {
+        left: 60%;
+    }
+    .fa-link {
+        left: 90%
+    }
+}
+/* _________ //Portfolio End _________ */
+
+/* ---------- Portfolio-Item Css Start ---------- */
+.project_title {
+    text-align: center;
+    border-bottom: 1px solid #01bc8c;
+}
+
+.project_images img {
+    margin: 10px 0px;
+}
+
+.project {
+    margin-top: 0px;
+}
+ul li h4{
+    float:right;
+}
+.slider{
+    width:100%;
+}
+#bar{
+    background:none;
+}
+/* ---------- //Portfolio-Item Css End ---------- */
+
+
+/*----------------------------------------------custom bootstrap portfolio------------------------------------------------------*/
+.lpm_row {
+    margin-right: -15px;
+    margin-left: -15px;
+}
+.lpm_col-md-1, .lpm_col-md-10, .lpm_col-md-11, .lpm_col-md-12, .lpm_col-md-2, .lpm_col-md-3, .lpm_col-md-4, .lpm_col-md-5, .lpm_col-md-6, .lpm_col-md-7, .lpm_col-md-8, .lpm_col-md-9 {
+    float: right;
+}
+.lpm_col-lg-1, .lpm_col-lg-10, .lpm_col-lg-11, .lpm_col-lg-12, .lpm_col-lg-2, .lpm_col-lg-3, .lpm_col-lg-4, .lpm_col-lg-5, .lpm_col-lg-6, .lpm_col-lg-7, .lpm_col-lg-8, .lpm_col-lg-9, .lpm_col-md-1, .lpm_col-md-10, .lpm_col-md-11, .lpm_col-md-12, .lpm_col-md-2, .lpm_col-md-3, .lpm_col-md-4, .lpm_col-md-5, .lpm_col-md-6, .lpm_col-md-7, .lpm_col-md-8, .lpm_col-md-9, .lpm_col-sm-1, .lpm_col-sm-10, .lpm_col-sm-11, .lpm_col-sm-12, .lpm_col-sm-2, .lpm_col-sm-3, .lpm_col-sm-4, .lpm_col-sm-5, .lpm_col-sm-6, .lpm_col-sm-7, .lpm_col-sm-8, .lpm_col-sm-9, .lpm_col-xs-1, .lpm_col-xs-10, .lpm_col-xs-11, .lpm_col-xs-12, .lpm_col-xs-2, .lpm_col-xs-3, .lpm_col-xs-4, .lpm_col-xs-5, .lpm_col-xs-6, .lpm_col-xs-7, .lpm_col-xs-8, .lpm_col-xs-9 {
+    position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+
+
+
+@media (min-width: 768px)
+{
+    .lpm_col-sm-6 {
+        width: 50%;
+    }
+    .lpm_container {
+        width: 750px;
+    }
+}
+@media (min-width: 992px)
+{
+    .lpm_col-md-12 {
+        width: 100%;
+    }
+    .lpm_col-md-3 {
+        width: 25%;
+    }
+    .lpm_col-md-6{
+        width: 47%;
+    }
+    .lpm_container {
+        width: 970px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .lpm_container {
+        width: 1170px;
+    }
+}
+
+.lpm_btn {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+.lpm_btn-primary {
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #2e6da4;
+}
+.lpm_pointer {
+    cursor: pointer;
+}
+
+.lpm_float_right{
+    float:right;
+}
+.lpm_margin_left_1{
+    margin-left: 1%;
+}

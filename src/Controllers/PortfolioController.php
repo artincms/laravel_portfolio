@@ -6,6 +6,7 @@ namespace ArtinCMS\LPM\Controllers;
 use App\Http\Controllers\Controller;
 use ArtinCMS\LPM\Model\Portfilio;
 use ArtinCMS\LPM\Model\PortfilioSimilar;
+use ArtinCMS\LTS\Models\Tag;
 use DataTables;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
@@ -207,13 +208,13 @@ class PortfolioController extends Controller
     {
         $lang_id = $request->selectable_id;
         $x = $request->term;
-        $data = Portfilio::select("id", 'title AS text')->where('is_active', '1')->where('lang_id',$lang_id);
+        $data = Portfilio::select("id", 'title AS text')->where('is_active', '1')->where('lang_id', $lang_id);
         if ($x['term'] != '...')
         {
             $data = Portfilio::select("id", 'title AS text')
                 ->where('is_active', '1')
                 ->where("title", "LIKE", "%" . $x['term'] . "%")
-                ->where('lang_id',$lang_id);
+                ->where('lang_id', $lang_id);
         }
         $data = $data->get();
         $data = ['results' => $data];
@@ -345,7 +346,7 @@ class PortfolioController extends Controller
     {
         foreach ($request->related_id as $id)
         {
-            $item  = new PortfilioSimilar;
+            $item = new PortfilioSimilar;
             $item->item_id = LFM_GetDecodeId($request->item_id);
             $item->related_id = $id;
             if (Auth::user())
@@ -371,7 +372,7 @@ class PortfolioController extends Controller
     public function getPortfolioRelatedItem(Request $request)
     {
         $item_id = LFM_GetDecodeId($request->item_id);
-        $item = PortfilioSimilar::with('portfolio')->where('item_id',$item_id);
+        $item = PortfilioSimilar::with('portfolio')->where('item_id', $item_id);
         $multiLangFunc = config('laravel_portfolio.multiLang');
         if ($multiLangFunc)
         {
@@ -381,6 +382,7 @@ class PortfolioController extends Controller
         {
             $multiLang = false;
         }
+
         return DataTables::eloquent($item)
             ->editColumn('id', function ($data) {
                 return LFM_getEncodeId($data->id);
@@ -419,15 +421,25 @@ class PortfolioController extends Controller
 
     public function getPortfolioAjax(Request $request)
     {
-        $lang_id = $request->lang_id ;
-        return createPortfolio($lang_id) ;
+        $lang_id = $request->lang_id;
+
+        return createPortfolio($lang_id);
     }
 
     public function getPortfolioItemAjax(Request $request)
     {
-        $item_id = $request->item_id ;
-        $lang_id = $request->lang_id ;
-        return createPortfolioItem($item_id,$lang_id) ;
+        $item_id = $request->item_id;
+        $lang_id = $request->lang_id;
+
+        return createPortfolioItem($item_id, $lang_id);
+    }
+
+    public function getPortfolioFromVue(Request $request)
+    {
+        $lang_id = $request->lang_id;
+        $res['portfolios'] = Portfilio::with('portfolioSimilars','tags','files')->where('lang_id',$lang_id)->get();
+        $res['filters'] = Tag::with('portfolios')->where('lang_id',$lang_id)->get();
+        return $res ;
     }
 
 

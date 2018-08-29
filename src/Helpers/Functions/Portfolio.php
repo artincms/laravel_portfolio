@@ -54,6 +54,7 @@ if (!function_exists('faq_sampleLang'))
         return $lang ;
     }
 }
+
 if (!function_exists('createPortfolio'))
 {
     function createPortfolio($lang_id,$dir)

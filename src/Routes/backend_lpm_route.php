@@ -16,5 +16,7 @@ Route::group(['prefix' => config('laravel_portfolio_system.backend_lpm_route_pre
         Route::post('addRelatedPortfolio', ['as' => 'LPM.Portfolio.addRelatedPortfolio', 'uses' => 'PortfolioController@addRelatedPortfolio']);
         Route::post('getPortfolioRelatedItem', ['as' => 'LPM.Portfolio.getPortfolioRelatedItem', 'uses' => 'PortfolioController@getPortfolioRelatedItem']);
 
+        //vue Route
+        Route::post('getPortfolioFromVue', ['as' => 'LPM.Portfolio.getPortfolioFromVue', 'uses' => 'PortfolioController@getPortfolioFromVue']);
     });
 });

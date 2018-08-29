@@ -4,7 +4,6 @@ namespace ArtinCMS\LPM\Model;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Traits\LaraveTagablesSystem;
 use App\Traits\lfmFillable ;
 
 class Portfilio extends Model
@@ -13,7 +12,6 @@ class Portfilio extends Model
     protected $appends = ['encode_id','encode_file_id','url'];
     protected $table = 'lpm_portfolio';
     use softDeletes;
-    use LaraveTagablesSystem;
     use lfmFillable ;
     protected static function boot()
     {
