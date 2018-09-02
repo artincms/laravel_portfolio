@@ -599,7 +599,7 @@
 
     /*___________________________________________________init select2_____________________________________________________________________*/
     init_select2_data('#PortfolioSelectLang',{!! $multiLang !!});
-    init_select2_ajax('#showSelectTag', '{{route('LTS.autoCompleteTag')}}', true,true,true);
+    init_select2_ajax('#showSelectTag', '{{route('LTS.autoCompleteTag')}}', true,true,true,true);
 
     /*___________________________________________________SummerNote_____________________________________________________________________*/
 

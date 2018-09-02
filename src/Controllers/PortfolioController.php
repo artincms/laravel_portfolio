@@ -105,20 +105,47 @@ class PortfolioController extends Controller
         $port->title = $request->title;
         $port->description = $request->description;
 
-        if (Auth::user())
+        if (auth()->check())
         {
-            if (isset(Auth::user()->id))
-            {
-                $port->created_by = Auth::user()->id;
-            }
+            $auth = auth()->id();
+            $port->created_by = auth()->id();
+        }
+        else
+        {
+            $auth = 0;
+
         }
         if ($request->lang_id)
         {
             $lang_id = $request->lang_id;
             $port->lang_id = $lang_id;
         }
+        else
+        {
+            $lang_id = 0 ;
+        }
         $port->save();
-        $res['tag'] = LTS_saveTag($port, $request->tag);
+        $tags_id = [] ;
+        foreach ($request->tag as $tag)
+        {
+            if ((int)$tag == 0)
+            {
+                $tags_id[]=$this->setNewTag($tag,$lang_id,$auth);
+            }
+            else
+            {
+                $find = Tag::find((int)$tag);
+                if(isset($find))
+                {
+                    $tags_id[]=$find->id ;
+                }
+                else
+                {
+                    $tags_id[]=$this->setNewTag($tag,$lang_id,$auth);
+                }
+            }
+        }
+        $res['tag'] = LTS_saveTag($port, $tags_id);
         $res['file'] = LFM_SaveSingleFile($port, 'default_img', 'defaultImg', 'default_img_options');
         $saveMultiFile = LFM_SaveMultiFile($port, 'OtherImg', 'image', 'files');
         $res =
@@ -314,23 +341,46 @@ class PortfolioController extends Controller
         $item = Portfilio::find(LFM_GetDecodeId($request->item_id));
         $item->title = $request->title;
         $item->description = $request->description;
-        if (Auth::user())
+        if (auth()->check())
         {
-            if (isset(Auth::user()->id))
-            {
-                $item->created_by = Auth::user()->id;
-            }
+            $auth = auth()->id();
+            $item->created_by = auth()->id();
         }
+        else
+        {
+            $auth = 0;
 
+        }
         if ($request->lang_id)
         {
             $lang_id = $request->lang_id;
             $item->lang_id = $lang_id;
         }
         $item->save();
+
         $saveDefaultFile = LFM_SaveSingleFile($item, 'default_img', 'LoadDefaultImg', 'default_img_options');
         $savePortfolioFiles = LFM_SaveMultiFile($item, 'editPortfolioFile', 'image', 'files', 'sync');
-        $res['tag'] = LTS_saveTag($item, $request->tag, 'tag', 'tags', 'sync');
+        $tags_id = [] ;
+        foreach ($request->tag as $tag)
+        {
+            if ((int)$tag == 0)
+            {
+                $tags_id[]=$this->setNewTag($tag,$lang_id,$auth);
+            }
+            else
+            {
+                $find = Tag::find((int)$tag);
+                if(isset($find))
+                {
+                    $tags_id[]=$find->id ;
+                }
+                else
+                {
+                    $tags_id[]=$this->setNewTag($tag,$lang_id,$auth);
+                }
+            }
+        }
+        $res['tag'] = LTS_saveTag($item, $tags_id, 'tag', 'tags', 'sync');
         $res =
             [
                 'success'     => true,
@@ -437,9 +487,20 @@ class PortfolioController extends Controller
     public function getPortfolioFromVue(Request $request)
     {
         $lang_id = $request->lang_id;
-        $res['portfolios'] = Portfilio::with('portfolioSimilars','tags','files')->where('lang_id',$lang_id)->get();
-        $res['filters'] = Tag::with('portfolios')->where('lang_id',$lang_id)->get();
-        return $res ;
+        $res['portfolios'] = Portfilio::with('portfolioSimilars', 'tags', 'files')->where('lang_id', $lang_id)->get();
+        $res['filters'] = Tag::with('portfolios')->where('lang_id', $lang_id)->get();
+
+        return $res;
+    }
+
+    public function setNewTag($tag,$lang_id,$auth)
+    {
+        $t= new Tag;
+        $t->title = $tag;
+        $t->lang_id = $lang_id;
+        $t->created_by = $auth;
+        $t->save() ;
+        return $t->id ;
     }
 
 
