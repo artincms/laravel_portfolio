@@ -1,8 +1,8 @@
 <?php
 
 return [
-    'all' => "All",
-    'related_projecets' => "پروژه های مرتبط",
+    'all' => "همه",
+    'related_projecets' => "تصاویر دیگر",
 
 ];
 ?>
