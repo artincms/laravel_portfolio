@@ -69,6 +69,36 @@
                                 <div class="form-group row fg_title">
                                     <label class="col-sm-2 control-label col-form-label label_post" for="title">
                                         <span class="more_info"></span>
+                                        <span class="label_skills">مهارت</span>
+                                    </label>
+                                    <div class="col-sm-6">
+                                        <input name="skills" class="form-control" id="portfolio_skills" tab="1">
+                                    </div>
+                                    <div class="col-sm-4 messages"></div>
+                                </div>
+                                <div class="form-group row fg_title">
+                                    <label class="col-sm-2 control-label col-form-label label_post" for="title">
+                                        <span class="more_info"></span>
+                                        <span class="label_clients">مشتری</span>
+                                    </label>
+                                    <div class="col-sm-6">
+                                        <input name="clients" class="form-control" id="portfolio_clients" tab="1">
+                                    </div>
+                                    <div class="col-sm-4 messages"></div>
+                                </div>
+                                <div class="form-group row fg_title">
+                                    <label class="col-sm-2 control-label col-form-label label_post" for="title">
+                                        <span class="more_info"></span>
+                                        <span class="label_clients">مشتری</span>
+                                    </label>
+                                    <div class="col-sm-6">
+                                        <input name="link" class="form-control" id="portfolio_link" tab="1">
+                                    </div>
+                                    <div class="col-sm-4 messages"></div>
+                                </div>
+                                <div class="form-group row fg_title">
+                                    <label class="col-sm-2 control-label col-form-label label_post" for="title">
+                                        <span class="more_info"></span>
                                         <span class="label_title">انتخاب تگ</span>
                                     </label>
                                     <div class="col-sm-6">
