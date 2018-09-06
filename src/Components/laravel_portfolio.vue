@@ -3,21 +3,29 @@
         <modal v-if="showModal" :src="src" @close="showModal = false">
         </modal>
         <portfolio_item v-if="showItem" :item="childItem"></portfolio_item>
-        <div v-if="!showItem" class="lpm_container" :style="{direction: direction}">
-            <div class="lpm_col-md-12">
+        <div v-if="!showItem" style="width: 100%"  :style="{direction: direction}">
+            <div class="lpm_col_md_12">
                 <div id="gallery">
                     <div>
-                        <button class=" lpm_btn filter lpm_btn-primary lpm_float_right lpm_margin_left_1"  @click="filterData(-1)" data-filter="all">همه</button>
-                        <button v-for="filter in filters" v-if="filter.portfolios.length>0" :data-filter="'.category-'+filter.id" @click="filterData(filter.id)" class="lpm_btn filter lpm_btn-primary lpm_float_right lpm_margin_left_1">{{filter.title}}</button>
+                        <transition-group name="listPort" tag="div">
+                            <button :key="0" class=" lpm_btn filter lpm_btn-primary lpm_float_right lpm_margin_left_1"  @click="filterData(-1)" data-filter="all">همه</button>
+                            <button v-for="filter in filters" v-if="filter.portfolios.length>0" :key="filter.id" :data-filter="'.category-'+filter.id" @click="filterData(filter.id)" class="lpm_btn filter lpm_btn-primary lpm_float_right lpm_margin_left_1 listPort">{{filter.title}}</button>
+                        </transition-group>
                     </div>
                     <div style="clear:both"></div>
-                    <div class="mix lpm_float_right" v-for="portfolio in filteredPort" :key="portfolio.id" :data-my-order="portfolio.order" style="display: inline-block;">
-                        <div class="lpm_col-md-3 lpm_col-sm-6 lpm_col-xs-6">
-                            <a class="lpm_pointer" @click="showModalFunc(portfolio)" :data-src="portfolio.url"><i class="fa fa-search-plus"></i></a>
-                            <a href="#" @click="setShowItem(portfolio)" class="lpm_pointer" :class="showPortfolioItem"><i class="fa fa-link"></i></a>
+                    <transition-group name="list_item" tag="div">
+                        <div class="mix lpm_float_right" v-for="portfolio in filteredPort" :key="portfolio.id" :data-my-order="portfolio.order" style="display: inline-block;">
+                            <div class="width_50" style="position: relative">
+                                <a class="lpm_pointer fa-lps-search-plus_a" @click="showModalFunc(portfolio)" :data-src="portfolio.url">
+                                    <i class="lps-icon fa-lps-search-plus"></i>
+                                </a>
+                                <a href="#" @click="setShowItem(portfolio)" class="lpm_pointer fa-lps-link_a" :class="showPortfolioItem">
+                                    <i class="lps-icon fa-lps-link"></i>
+                                </a>
+                            </div>
+                            <div class="thumb_zoom"><img style="width: 220px;height: 146px" :src="portfolio.url" class="img-responsive"> </div>
                         </div>
-                        <div class="thumb_zoom"><img style="width: 220px;height: 146px" :src="portfolio.url" class="img-responsive"> </div>
-                    </div>
+                    </transition-group>
                 </div>
             </div>
         </div>
@@ -25,9 +33,9 @@
 </template>
 
 <script>
-    import axios from './lib/axios/index.js'
-    import modal from './modal'
-    import portfolio_item from './portfolio_item'
+    window.axios = require('axios');
+    import modal from './components/modal'
+    import portfolio_item from './components/portfolio_item'
     export default {
         name: "laravel_portfolio",
         props:['lang_id','direction'],
@@ -100,5 +108,6 @@
 
 <style scoped>
     @import  './assets/css/custom.css';
+    @import  './assets/fonts/icon/style.css';
 
 </style>

@@ -89,7 +89,7 @@
                                 <div class="form-group row fg_title">
                                     <label class="col-sm-2 control-label col-form-label label_post" for="title">
                                         <span class="more_info"></span>
-                                        <span class="label_clients">مشتری</span>
+                                        <span class="label_link">لینک</span>
                                     </label>
                                     <div class="col-sm-6">
                                         <input name="link" class="form-control" id="portfolio_link" tab="1">

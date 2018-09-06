@@ -103,6 +103,9 @@ class PortfolioController extends Controller
     {
         $port = new Portfilio;
         $port->title = $request->title;
+        $port->skills = $request->skills;
+        $port->clients = $request->clients;
+        $port->link = $request->link;
         $port->description = $request->description;
 
         if (auth()->check())
@@ -340,6 +343,9 @@ class PortfolioController extends Controller
     {
         $item = Portfilio::find(LFM_GetDecodeId($request->item_id));
         $item->title = $request->title;
+        $item->skills = $request->skills;
+        $item->clients = $request->clients;
+        $item->link = $request->link;
         $item->description = $request->description;
         if (auth()->check())
         {

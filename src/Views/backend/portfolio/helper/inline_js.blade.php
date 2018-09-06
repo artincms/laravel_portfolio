@@ -147,7 +147,7 @@
                     '       <i class="fa fa-edit"></i><span class="ml-2">نمونه کارهای مرتبط</span>' +
                     '   </a>' +
                     '    <a class="btn_trash_portfolio pointer gallery_menu-item" data-item_id="' + full.id + '" data-title="' + full.title + ' ">' +
-                    '       <i class="fa fa-trash"></i><span class="ml-2">خذف</span>' +
+                    '       <i class="fa fa-trash"></i><span class="ml-2">حذف</span>' +
                     '   </a>'
                 '  </div>' +
                 '</div>';
@@ -220,7 +220,7 @@
                     '</span>' +
                     '  <div class="dropdown_gallery hidden">' +
                     '    <a class="btn_trash_portfolio_related pointer gallery_menu-item" data-item_id="' + full.id + '" data-title="' + full.title + ' ">' +
-                    '       <i class="fa fa-trash"></i><span class="ml-2">خذف</span>' +
+                    '       <i class="fa fa-trash"></i><span class="ml-2">حذف</span>' +
                     '   </a>'
                     '  </div>' +
                     '</div>';
@@ -256,6 +256,9 @@
         title: {
             presence: {message: '^<strong>عنوان فرم ضروریست.</strong>'}
         },
+        link:{
+            url:{message: '^<strong>خطا در نوع لینک</strong>'}
+        }
     };
     var create_portfolio_form_id = document.querySelector("#frm_create_portfolio");
     init_validatejs(create_portfolio_form_id, create_portfolio_constraints, ajax_func_create_portfolio,"#frm_create_portfolio",'.add_submit_buttons');

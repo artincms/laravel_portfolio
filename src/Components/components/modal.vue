@@ -92,6 +92,8 @@
     .lpm_close_image{
         position: absolute;
         right: 0px;
+        top: 0px;
+        border-radius: 50%;
     }
     img#imageModalPort {
         width: 100%;

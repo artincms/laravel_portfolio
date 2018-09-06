@@ -3,14 +3,15 @@
         <h2 id="single_portfolio_title"><label>{{item.title}}</label></h2>
         <div class="lpm_row">
             <div class="lpm_col-md-12">
-                <div class="lpm_col-md-6" v-html="item.description"></div>
+                <transition name="descFade"  :duration="{ enter: 500, leave: 800 }">
+                    <div class="lpm_col-md-6" v-html="item.description"></div>
+                </transition>
                 <div class="lpm_col-md-6">
                     <div id="myCarousel" class="carousel slide" data-ride="carousel">
                         <!-- Indicators -->
                         <!-- Wrapper for slides -->
                         <div class="carousel-inner">
                             <vue-flux :options="fluxOptions" :images="fluxImages" :transitions="fluxTransitions"  ref="slider">
-
                             </vue-flux>
                         </div>
                     </div>
@@ -34,8 +35,8 @@
 </template>
 
 <script>
-    import VueFlux from './components/VueFlux.vue';
-    import Transitions from './components/transitions/index.js';
+    import VueFlux from './vue-flux/VueFlux.vue';
+    import Transitions from './vue-flux/transitions/index.js';
     export default {
         name: "portfolio_item",
         props:['item'],
@@ -83,6 +84,13 @@
         width: 254px;
         margin: 5px;
         float: right;
+    }
+    .descFade-enter-active, .descFade-leave-active {
+        transition: all 1s;
+    }
+    .descFade-enter, .descFade-leave-to /* .list-leave-active below version 2.1.8 */ {
+        opacity: 0;
+        transform: translateX(30px);
     }
 
 </style>
