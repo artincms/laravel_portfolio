@@ -1,22 +1,20 @@
 <?php
 Route::group(['prefix' => config('laravel_portfolio_system.backend_lpm_route_prefix'), 'namespace' => 'ArtinCMS\LPM\Controllers', 'middleware' => config('laravel_portfolio_system.backend_lpm_middlewares')], function () {
     //------------------------------------------portfolio---------------------------------------------------------//
-    Route::group(['prefix' => 'Portfolio'], function () {
-        Route::get('/', ['as' => 'LPM.Portfolio', 'uses' => 'PortfolioController@index']);
-        Route::post('getPortfolio', ['as' => 'LPM.Portfolio.getPortfolio', 'uses' => 'PortfolioController@getPortfolio']);
-        Route::post('savePortfolio', ['as' => 'LPM.Portfolio.savePortfolio', 'uses' => 'PortfolioController@savePortfolio']);
-        Route::post('getEditPortfolioForm', ['as' => 'LPM.Portfolio.getEditPortfolioForm', 'uses' => 'PortfolioController@getEditPortfolioForm']);
-        Route::post('editPortfolio', ['as' => 'LPM.Portfolio.editPortfolio', 'uses' => 'PortfolioController@editPortfolio']);
-        Route::post('trashPortfolio', ['as' => 'LPM.Portfolio.trashPortfolio', 'uses' => 'PortfolioController@trashPortfolio']);
-        Route::post('trashPortfolioRelated', ['as' => 'LPM.Portfolio.trashPortfolioRelated', 'uses' => 'PortfolioController@trashPortfolioRelated']);
-        Route::post('setPortfolioStatus', ['as' => 'LPM.Portfolio.setPortfolioStatus', 'uses' => 'PortfolioController@setPortfolioStatus']);
-        Route::post('autoCompletePortfolioLang', ['as' => 'LPM.Portfolio.autoCompletePortfolioLang', 'uses' => 'PortfolioController@autoCompletePortfolioLang']);
-        Route::post('autoCompletePortfolio', ['as' => 'LPM.Portfolio.autoCompletePortfolio', 'uses' => 'PortfolioController@autoCompletePortfolio']);
-        Route::post('saveOrderPortfolioForm', ['as' => 'LPM.Portfolio.saveOrderPortfolioForm', 'uses' => 'PortfolioController@saveOrderPortfolioForm']);
-        Route::post('addRelatedPortfolio', ['as' => 'LPM.Portfolio.addRelatedPortfolio', 'uses' => 'PortfolioController@addRelatedPortfolio']);
-        Route::post('getPortfolioRelatedItem', ['as' => 'LPM.Portfolio.getPortfolioRelatedItem', 'uses' => 'PortfolioController@getPortfolioRelatedItem']);
+    Route::get('/', ['as' => 'LPM.Portfolio', 'uses' => 'PortfolioController@index']);
+    Route::post('getPortfolio', ['as' => 'LPM.getPortfolio', 'uses' => 'PortfolioController@getPortfolio']);
+    Route::post('savePortfolio', ['as' => 'LPM.savePortfolio', 'uses' => 'PortfolioController@savePortfolio']);
+    Route::post('getEditPortfolioForm', ['as' => 'LPM.getEditPortfolioForm', 'uses' => 'PortfolioController@getEditPortfolioForm']);
+    Route::post('editPortfolio', ['as' => 'LPM.editPortfolio', 'uses' => 'PortfolioController@editPortfolio']);
+    Route::post('trashPortfolio', ['as' => 'LPM.trashPortfolio', 'uses' => 'PortfolioController@trashPortfolio']);
+    Route::post('trashPortfolioRelated', ['as' => 'LPM.trashPortfolioRelated', 'uses' => 'PortfolioController@trashPortfolioRelated']);
+    Route::post('setPortfolioStatus', ['as' => 'LPM.setPortfolioStatus', 'uses' => 'PortfolioController@setPortfolioStatus']);
+    Route::post('autoCompletePortfolioLang', ['as' => 'LPM.autoCompletePortfolioLang', 'uses' => 'PortfolioController@autoCompletePortfolioLang']);
+    Route::post('autoCompletePortfolioParrent', ['as' => 'LPM.autoCompletePortfolioParrent', 'uses' => 'PortfolioController@autoCompletePortfolioParrent']);
+    Route::post('saveOrderPortfolioForm', ['as' => 'LPM.saveOrderPortfolioForm', 'uses' => 'PortfolioController@saveOrderPortfolioForm']);
+    Route::post('addRelatedPortfolio', ['as' => 'LPM.addRelatedPortfolio', 'uses' => 'PortfolioController@addRelatedPortfolio']);
+    Route::post('getPortfolioRelatedItem', ['as' => 'LPM.getPortfolioRelatedItem', 'uses' => 'PortfolioController@getPortfolioRelatedItem']);
 
-        //vue Route
-        Route::post('getPortfolioFromVue', ['as' => 'LPM.Portfolio.getPortfolioFromVue', 'uses' => 'PortfolioController@getPortfolioFromVue']);
-    });
+    //vue Route
+    Route::post('getPortfolioFromVue', ['as' => 'LPM.getPortfolioFromVue', 'uses' => 'PortfolioController@getPortfolioFromVue']);
 });

@@ -53,4 +53,9 @@ class Portfilio extends Model
         return $this->morphToMany('ArtinCMS\LTS\Models\Tag' , 'taggable','lts_taggables','taggable_id','tag_id')->withPivot('type')->withTimestamps() ;
     }
 
+    public function parent()
+    {
+        return $this->hasOne('ArtinCMS\LGS\Model\Gallery', 'id', 'category_id');
+    }
+
 }

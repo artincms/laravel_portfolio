@@ -31,6 +31,7 @@ class PortfolioController extends Controller
     public function index()
     {
         $multiLangFunc = config('laravel_portfolio.multiLang');
+        $parrents = Portfilio::with('parent')->get();
         if ($multiLangFunc)
         {
             $multiLang = json_encode($multiLangFunc());
@@ -40,11 +41,8 @@ class PortfolioController extends Controller
             $multiLang = false;
         }
         $option_default_img = ['size_file' => 2000, 'max_file_number' => 1, 'true_file_extension' => ['png', 'jpg']];
-        $option_other_image = ['size_file' => 2000, 'max_file_number' => 2, 'true_file_extension' => ['png', 'jpg']];
         $default_img = LFM_CreateModalFileManager('defaultImg', $option_default_img, 'insert', 'showDefaultImg', false, false, false, 'انتخاب فایل تصویر', 'btn-block', 'fa fa-folder-open font_button mr-2');
-        $option_other_image = LFM_CreateModalFileManager('OtherImg', $option_other_image, 'insert', 'showOtherImg', false, false, false, 'انتخاب فایل تصویر', 'btn-block', 'fa fa-folder-open font_button mr-2');
-
-        return view('laravel_portfolio::backend.portfolio.index', compact('sliderTypes', 'multiLang', 'default_img', 'option_other_image'));
+        return view('laravel_portfolio::backend.portfolio.index', compact('sliderTypes', 'multiLang', 'default_img','parrents'));
     }
 
     public function getPortfolio(Request $request)
