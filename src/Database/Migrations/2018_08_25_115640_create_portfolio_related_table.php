@@ -15,9 +15,9 @@ class CreatePortfolioRelatedTable extends Migration
     {
         Schema::create('lpm_portfolio_related', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('item_id')->unsigned()->default(null);
-            $table->integer('related_id')->unsigned()->default(null);
-            $table->integer('created_by')->unsigned()->default(0);
+            $table->integer('item_id')->unsigned()->nullable()->default(null);
+            $table->integer('related_id')->unsigned()->nullable()->default(null);
+            $table->integer('created_by')->unsigned()->nullable()->default(0);
             $table->timestamps();
             $table->softDeletes();
         });

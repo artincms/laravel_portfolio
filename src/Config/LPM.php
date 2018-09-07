@@ -14,6 +14,8 @@ return [
     //allow user to upload private file in filemanager
     'userModel'=>'App\User',
     'guestCanVote'=>true,
-    'multiLang'=>'faq_sampleLang'
+    'multiLang'=>'faq_sampleLang',
+    'header_back_color'         => '#00394d',
+    'header_font_color'         => '#ffffff'
 
 ];

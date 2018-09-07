@@ -15,17 +15,15 @@ class CreatePortfolioTable extends Migration
     {
         Schema::create('lpm_portfolio', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('category_id')->nullable()->unsigned()->default(0);;
             $table->string('title', 255);
-            $table->string('skills', 255)->nullable()->default(null);
-            $table->string('clients', 255)->nullable()->default(null);
-            $table->string('link', 255)->nullable()->default(null);
             $table->longText('description')->nullable()->default(null);
             $table->integer('default_img')->unsigned()->nullable()->default(null);
             $table->text('default_img_options')->nullable()->default(null);
-            $table->integer('lang_id')->unsigned()->default(0);
-            $table->integer('order')->default(0);
-            $table->enum('is_active', array('0','1'))->default('1');
-            $table->integer('created_by')->unsigned()->default(0);
+            $table->integer('lang_id')->unsigned()->nullable()->default(0);
+            $table->integer('order')->nullable()->default(0);
+            $table->enum('is_active', array('0','1'))->nullable()->default('1');
+            $table->integer('created_by')->unsigned()->nullable()->default(0);
             $table->timestamps();
             $table->softDeletes();
         });

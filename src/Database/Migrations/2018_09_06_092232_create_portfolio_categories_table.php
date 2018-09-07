@@ -19,9 +19,9 @@ class CreatePortfolioCategoriesTable extends Migration
             $table->integer('parent_id')->unsigned()->nullable()->default(0);
             $table->integer('default_img')->unsigned()->nullable()->default(null);
             $table->text('default_img_options')->nullable()->default(null);
-            $table->integer('lang_id')->unsigned()->default(0);
-            $table->integer('order')->default(0);
-            $table->enum('is_active', array('0','1'))->default('1');
+            $table->integer('lang_id')->unsigned()->nullable()->default(0);
+            $table->integer('order')->nullable()->default(0);
+            $table->enum('is_active', array('0','1'))->nullable()->default('1');
             $table->timestamps();
             $table->softDeletes();
         });

@@ -3,8 +3,8 @@
         <div class="modal-mask">
             <div class="modal-wrapper">
                 <div class="modal-container">
-                    <button class="lpm_btn lpm_close_image"  @click="$emit('close')">
-                        <i class="fa fa-close" aria-hidden="true"></i>
+                    <button class="lpm_close_image pointer"  @click="$emit('close')">
+                        X
                     </button>
                     <div class="modal-body">
                         <slot name="body">
@@ -45,7 +45,7 @@
     .modal-container {
         width: 800px;
         margin: 0px auto;
-        padding:1px 20px;
+        padding:5px 5px;
         background-color: #fff;
         border-radius: 2px;
         box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
@@ -60,12 +60,16 @@
     }
 
     .modal-body {
-        margin: 20px 0;
+        margin: 0px 0;
     }
 
     .modal-default-button {
         float: right;
     }
+    .pointer{
+        cursor: pointer;
+    }
+
 
     /*
      * The following styles are auto-applied to elements with
@@ -93,7 +97,9 @@
         position: absolute;
         right: 0px;
         top: 0px;
-        border-radius: 50%;
+        border-radius: 19%;
+        z-index: 1000;
+        border: none;
     }
     img#imageModalPort {
         width: 100%;

@@ -9,10 +9,7 @@
 }
 /* ---------- //Gallery Css End---------- */
 /* ---------- Mix Css Start ---------- */
-.mix img {
-    width: 220px;
-    margin: 5px;
-}
+
 /* ---------- //Mix css End ---------- */
 /* ---------- Portfolio images Css ---------- */
 .thumb_zoom img {
@@ -65,12 +62,12 @@
     z-index: 7;
     top: 65px;
     right: 25%;
-    color: #fff;
+    color: #fff!important;
     font-size: 14px !important;
     background-color: #01bc8c;
     border-radius: 50%;
-    width: 25px;
-    height: 25px;
+    width: 32px;
+    height: 32px;
     padding-top: 8px;
     padding-right: 8px;
     opacity: 0.75;
@@ -82,12 +79,12 @@
     z-index: 7;
     top: 65px;
     left: 25%;
-    color: #fff;
+    color: #fff!important;
     font-size: 14px !important;
     background-color: #01bc8c;
     border-radius: 50%;
-    width: 25px;
-    height: 25px;
+    width: 32px;
+    height: 32px;
     padding-top: 8px;
     padding-right: 8px;
     opacity: 0.75;
@@ -215,17 +212,106 @@ ul li h4{
     margin-left: 1%;
 }
 .listPort-enter-active, .listPort-leave-active {
-    transition: all 1s;
+    transition: all 300ms ease-out
 }
 .listPort-enter, .listPort-leave-to /* .list-leave-active below version 2.1.8 */ {
     opacity: 0;
-    transform: translateX(30px);
-    transition-duration: 3s;
+    transform: scale(0.9)
 }
 .list_item-enter-active, .list_item-leave-active {
-    transition: all 1s;
+    transition: all 300ms ease-out
 }
 .list_item-enter, .list_item-leave-to /* .list-leave-active below version 2.1.8 */ {
     opacity: 0;
-    transform: translateX(30px);
+    transform: scale(0.9)
+}
+.rtl{
+    direction: rtl;
+}
+.ltr  {
+    direction: ltr;
+}
+.lgs_gallery_header {
+    margin: 5px 0px 10px 0px;
+    min-height: 250px;
+    position: relative;
+}
+.header_gallery_image {
+    text-align: center;
+    flex: 0 0 19%;
+    width: 410px;
+    position: absolute;
+    text-align: right;
+    right: 0px;
+    top: 5px;
+}
+.img_header{
+    border: 2px solid #002d3c;
+    width:410px;
+    height:225px;
+}
+.gallery_content {
+    margin-right: 420px;
+}
+.header_gallery_title{
+    text-align: center;
+    padding: 10px 0px;
+    margin: 0px;
+}
+.header_galler_description {
+    text-align: justify;
+}
+.sub_cat {
+    text-align: center;
+    background: #e4e4e4;
+    padding: 6px;
+    font-size: 16px;
+}
+.backToCat {
+    position: absolute;
+    left: 5px;
+    bottom: 5px;
+}
+.pointer{
+    cursor: pointer;
+}
+.btn_item_return {
+    width: 100%;
+    padding: 5px;
+    font-size: 15px;
+    cursor: pointer;
+    font-weight: bold;
+    border: 1px solid #b3b3b3;
+}
+
+.ltr .header_gallery_image {
+    left: 0px;
+    right: auto;
+}
+.ltr .gallery_content {
+    margin-right: 0px;
+    margin-left: 420px;
+}
+.ltr .backToCat {
+    left: auto;
+    right: 5px;
+}
+.ltr .fa-lps-search-plus_a {
+    padding-left: 8px;
+    padding-right: 0px;
+}
+
+.ltr .fa-lps-link_a{
+    padding-left: 8px;
+    padding-right: 0px;
+}
+
+.ltr .lpm_float_right {
+    float: left;
+}
+.ltr .lpm_col-md-1,.ltr .lpm_col-md-10,.ltr .lpm_col-md-11,.ltr .lpm_col-md-12,.ltr .lpm_col-md-2,.ltr .lpm_col-md-3,.ltr .lpm_col-md-4,.ltr .lpm_col-md-5,.ltr .lpm_col-md-6,.ltr .lpm_col-md-7,.ltr .lpm_col-md-8,.ltr .lpm_col-md-9 {
+    float: left;
+}
+.ltr .lpm_project_images {
+    float:left!important ;
 }

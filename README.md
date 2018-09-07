@@ -42,36 +42,16 @@ backend url is :
  http://yourDomain/LPM/Portfolio
   </pre> 
   </div>
-after you define porfoli for show all portfolio can use this
-helper functions :
- <div class="highlight highlight-text-html-php">
- <pre>
-createPortfolio($lang_id,$route_name) ;
-  </pre> 
-  </div>
- that lang id is the id of language and $route_name is name of 
- route for show more detail of portfolio
- and for show more detail of portfolio you can use this helper functions
- <div class="highlight highlight-text-html-php">
-  <pre>
- createPortfolioItem($lang_id,$route_name) ;
-   </pre> 
-   </div>
- the input of this function similar the createPortfolio function
- example of use two function is : 
- <div class="highlight highlight-text-html-php">
-   <pre>
-   public function portfolio()
-      {
-          $url_name='portfolioItem';
-          $view =createPortfolio(1,$url_name) ;
-          return view('portfolio',compact('view'));
-      }
-      public function portfolioItem($id)
-      {
-          $url_name='portfolioItem';
-          $item =createPortfolioItem($id,$url_name) ;
-          return view('portfolioItem',compact('item'));
-      }
-</pre>
-</div>
+  
+for use laravel portfolio in frontend of site you should 
+encode below html code in your project :
+
+```
+   <div id="portfolio">
+        <laravel_portfolio :category_id="1" :lang_id=1 :rtl=true></laravel_portfolio>
+    </div>
+```
+and load this javascript file 
+```angular2html
+    <script src="{{ asset('vendor/laravel_portfolio/components/portfolio.min.js') }}" defer></script>
+```

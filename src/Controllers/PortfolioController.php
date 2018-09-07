@@ -4,6 +4,7 @@ namespace ArtinCMS\LPM\Controllers;
 
 
 use App\Http\Controllers\Controller;
+use ArtinCMS\LPM\Model\Category;
 use ArtinCMS\LPM\Model\Portfilio;
 use ArtinCMS\LPM\Model\PortfilioSimilar;
 use ArtinCMS\LTS\Models\Tag;
@@ -31,7 +32,7 @@ class PortfolioController extends Controller
     public function index()
     {
         $multiLangFunc = config('laravel_portfolio.multiLang');
-        $parrents = Portfilio::with('parent')->get();
+        $parrents = Category::with('parent')->get();
         if ($multiLangFunc)
         {
             $multiLang = json_encode($multiLangFunc());
@@ -42,28 +43,28 @@ class PortfolioController extends Controller
         }
         $option_default_img = ['size_file' => 2000, 'max_file_number' => 1, 'true_file_extension' => ['png', 'jpg']];
         $default_img = LFM_CreateModalFileManager('defaultImg', $option_default_img, 'insert', 'showDefaultImg', false, false, false, 'انتخاب فایل تصویر', 'btn-block', 'fa fa-folder-open font_button mr-2');
-        return view('laravel_portfolio::backend.portfolio.index', compact('sliderTypes', 'multiLang', 'default_img','parrents'));
+        return view('laravel_portfolio::backend.portfolio.index', compact('sliderTypes', 'multiLang', 'default_img', 'parrents'));
     }
 
     public function getPortfolio(Request $request)
     {
-        $port = Portfilio::with('user');
-        if ($request->filter_title)
-        {
-            $port->where('title', 'like', '%' . $request->filter_title . '%');
-        }
-        if ($request->filter_lang_id != 'false')
-        {
-            $port->where('lang_id', (int)$request->filter_lang_id);
-        }
-        if ($request->filter_is_active == "1")
-        {
-            $port->where('is_active', '1');
-        }
-        elseif ($request->filter_is_active == "0")
-        {
-            $port->where('is_active', '0');
-        }
+        $port = Category::with('parent', 'user');
+//        if ($request->filter_title)
+//        {
+//            $port->where('title', 'like', '%' . $request->filter_title . '%');
+//        }
+//        if ($request->filter_lang_id != 'false')
+//        {
+//            $port->where('lang_id', (int)$request->filter_lang_id);
+//        }
+//        if ($request->filter_is_active == "1")
+//        {
+//            $port->where('is_active', '1');
+//        }
+//        elseif ($request->filter_is_active == "0")
+//        {
+//            $port->where('is_active', '0');
+//        }
         $multiLangFunc = config('laravel_portfolio.multiLang');
         if ($multiLangFunc)
         {
@@ -73,7 +74,6 @@ class PortfolioController extends Controller
         {
             $multiLang = false;
         }
-
         return DataTables::eloquent($port)
             ->editColumn('id', function ($data) {
                 return LFM_getEncodeId($data->id);
@@ -88,6 +88,25 @@ class PortfolioController extends Controller
                     return '';
                 }
             })
+            ->editColumn('parent_id', function ($data) {
+                return LFM_getEncodeId($data->parent_id);
+            })
+            ->editColumn('default_img', function ($data) {
+                return LFM_getEncodeId($data->default_img);
+            })
+            ->editColumn('description', function ($data) {
+                return strip_tags($data->description);
+            })
+            ->make(true);
+    }
+
+    public function getPortfolioItem(Request $request)
+    {
+        $port = Portfilio::with('user')->where('category_id',LFM_GetDecodeId($request->item_id));
+        return DataTables::eloquent($port)
+            ->editColumn('id', function ($data) {
+                return LFM_getEncodeId($data->id);
+            })
             ->editColumn('default_img', function ($data) {
                 return LFM_getEncodeId($data->default_img);
             })
@@ -99,11 +118,44 @@ class PortfolioController extends Controller
 
     public function savePortfolio(Request $request)
     {
+        $port = new Category;
+        $port->title = $request->title;
+        $port->parent_id = $request->parent_id;
+        $port->lang_id = $request->lang_id;
+        if ($port->parent_id)
+        {
+            $parent = Category::find($port->parent_id);
+            $port->lang_id = $parent->lang_id;
+        }
+        if (auth()->check())
+        {
+            $auth = auth()->id();
+            $port->created_by = auth()->id();
+        }
+        else
+        {
+            $auth = 0;
+
+        }
+        $port->save();
+        $res['tag'] = LTS_saveTag($port, $request->tag);
+        $res['file'] = LFM_SaveSingleFile($port, 'default_img', 'defaultImg', 'default_img_options');
+        $res =
+            [
+                'success' => true,
+                'title' => "ثبت  گروه",
+                'section' => 'defaultImg',
+                'message' => 'گروه با موفقیت ثبت شد.'
+            ];
+
+        return $res;
+    }
+
+    public function savePortfolioItem(Request $request)
+    {
         $port = new Portfilio;
         $port->title = $request->title;
-        $port->skills = $request->skills;
-        $port->clients = $request->clients;
-        $port->link = $request->link;
+        $port->category_id = LFM_GetDecodeId($request->category_id);
         $port->description = $request->description;
 
         if (auth()->check())
@@ -116,43 +168,16 @@ class PortfolioController extends Controller
             $auth = 0;
 
         }
-        if ($request->lang_id)
-        {
-            $lang_id = $request->lang_id;
-            $port->lang_id = $lang_id;
-        }
-        else
-        {
-            $lang_id = 0 ;
-        }
+        $port->lang_id = $request->lang_id;
+
         $port->save();
-        $tags_id = [] ;
-        foreach ($request->tag as $tag)
-        {
-            if ((int)$tag == 0)
-            {
-                $tags_id[]=$this->setNewTag($tag,$lang_id,$auth);
-            }
-            else
-            {
-                $find = Tag::find((int)$tag);
-                if(isset($find))
-                {
-                    $tags_id[]=$find->id ;
-                }
-                else
-                {
-                    $tags_id[]=$this->setNewTag($tag,$lang_id,$auth);
-                }
-            }
-        }
-        $res['tag'] = LTS_saveTag($port, $tags_id);
-        $res['file'] = LFM_SaveSingleFile($port, 'default_img', 'defaultImg', 'default_img_options');
-        $saveMultiFile = LFM_SaveMultiFile($port, 'OtherImg', 'image', 'files');
+        $res['tag'] = LTS_saveTag($port, $request->tag);
+        $res['file'] = LFM_SaveSingleFile($port, 'default_img', 'DefaultImgItem', 'default_img_options');
+        $saveMultiFile = LFM_SaveMultiFile($port, 'PortfolioFile', 'image', 'files');
         $res =
             [
                 'success' => true,
-                'title'   => "ثبت نمونه کار",
+                'title' => "ثبت نمونه کار",
                 'message' => 'نمونه کار با موفقیت ثبت شد.'
             ];
 
@@ -160,6 +185,26 @@ class PortfolioController extends Controller
     }
 
     public function setPortfolioStatus(Request $request)
+    {
+        $item = Category::find(LFM_GetDecodeId($request->item_id));
+        if ($request->is_active == "true")
+        {
+            $item->is_active = "1";
+            $res['message'] = ' مجموعه فعال گردید';
+        }
+        else
+        {
+            $item->is_active = "0";
+            $res['message'] = 'مجموعه غیر فعال شد';
+        }
+        $item->save();
+        $res['success'] = true;
+        $res['title'] = 'وضعیت مجموعه تغییر پیدا کرد .';
+
+        return $res;
+    }
+
+    public function setPortfolioItemStatus(Request $request)
     {
         $item = Portfilio::find(LFM_GetDecodeId($request->item_id));
         if ($request->is_active == "true")
@@ -181,13 +226,32 @@ class PortfolioController extends Controller
 
     public function trashPortfolio(Request $request)
     {
+        $item = Category::find(LFM_GetDecodeId($request->item_id));
+        $item->delete();
+
+        $res =
+            [
+                'success' => true,
+                'title' => "حذف آیتم",
+                'message' => 'آیتم با موفقیت حذف شد.'
+            ];
+
+        throw new HttpResponseException(
+            response()
+                ->json($res, 200)
+                ->withHeaders(['Content-Type' => 'text/plain', 'charset' => 'utf-8'])
+        );
+    }
+
+    public function trashPortfolioItem(Request $request)
+    {
         $item = Portfilio::find(LFM_GetDecodeId($request->item_id));
         $item->delete();
 
         $res =
             [
                 'success' => true,
-                'title'   => "حذف آیتم",
+                'title' => "حذف آیتم",
                 'message' => 'آیتم با موفقیت حذف شد.'
             ];
 
@@ -206,7 +270,7 @@ class PortfolioController extends Controller
         $res =
             [
                 'success' => true,
-                'title'   => "حذف آیتم",
+                'title' => "حذف آیتم",
                 'message' => 'آیتم با موفقیت حذف شد.'
             ];
 
@@ -304,15 +368,11 @@ class PortfolioController extends Controller
     public function getEditPortfolioForm(Request $request)
     {
         $option_default_img = ['size_file' => 2000, 'max_file_number' => 1, 'true_file_extension' => ['png', 'jpg']];
-        $option_port_file = ['size_file' => 2000, 'max_file_number' => 2, 'true_file_extension' => ['png', 'jpg']];
-        $portfolio = Portfilio::find(LFM_GetDecodeId($request->item_id));
+        $portfolio = Category::find(LFM_GetDecodeId($request->item_id));
         $portfolio->encode_id = LFM_getEncodeId($portfolio->id);
         $tags = LTS_showTag($portfolio);
         $default_img = LFM_CreateModalFileManager('LoadDefaultImg', $option_default_img, 'insert', 'showDefaultEditImg', 'portfolio_edit_tab', false, false, 'انتخاب فایل تصویر', 'btn-block', 'fa fa-folder-open font_button mr-2');
         $load_default_img = LFM_loadSingleFile($portfolio, 'default_img', 'LoadDefaultImg');
-        $portfolioFile = LFM_CreateModalFileManager('editPortfolioFile', $option_port_file, 'insert', 'showEditportfolioFile', false,
-            false, false, 'انتخاب فایل تصویر', 'btn-block', 'fa fa-folder-open font_button mr-2');
-        $portfolioFileLoad = LFM_LoadMultiFile($portfolio, 'editPortfolioFile', 'image');
         $multiLangFunc = config('laravel_portfolio.multiLang');
         if ($multiLangFunc)
         {
@@ -324,11 +384,37 @@ class PortfolioController extends Controller
             $multiLang = false;
             $active_lang_title = '';
         }
-        $portfolio_form = view('laravel_portfolio::backend.portfolio.view.edit', compact('portfolio', 'tags', 'default_img', 'load_default_img', 'multiLang', 'active_lang_title', 'portfolioFileLoad', 'portfolioFile'))->render();
+        $parrents = Category::with('parent')->get();
+        $portfolio_form = view('laravel_portfolio::backend.portfolio.view.edit', compact('portfolio', 'tags', 'default_img', 'load_default_img', 'multiLang', 'active_lang_title', 'parrents'))->render();
         $res =
             [
-                'success'             => true,
+                'success' => true,
                 'portfolio_edit_view' => $portfolio_form
+            ];
+        throw new HttpResponseException(
+            response()
+                ->json($res, 200)
+                ->withHeaders(['Content-Type' => 'text/plain', 'charset' => 'utf-8'])
+        );
+    }
+
+    public function getEditPortfolioItemForm(Request $request)
+    {
+        $option_default_img = ['size_file' => 2000, 'max_file_number' => 1, 'true_file_extension' => ['png', 'jpg']];
+        $option_port_file = ['size_file' => 2000, 'max_file_number' => 2, 'true_file_extension' => ['png', 'jpg']];
+        $portfolio = Portfilio::find(LFM_GetDecodeId($request->item_id));
+        $portfolio->encode_id = LFM_getEncodeId($portfolio->id);
+        $tags = LTS_showTag($portfolio);
+        $default_img = LFM_CreateModalFileManager('LoadDefaultImgItem', $option_default_img, 'insert', 'showDefaultEditImg', 'portfolio_edit_item_tab', false, false, 'انتخاب فایل تصویر', 'btn-block', 'fa fa-folder-open font_button mr-2');
+        $load_default_img_item = LFM_loadSingleFile($portfolio, 'default_img', 'LoadDefaultImgItem');
+        $portfolioFile = LFM_CreateModalFileManager('editPortfolioFile', $option_port_file, 'insert', 'showEditportfolioFile', false,
+            false, false, 'انتخاب فایل تصویر', 'btn-block', 'fa fa-folder-open font_button mr-2');
+        $portfolioFileLoad = LFM_LoadMultiFile($portfolio, 'editPortfolioFile', 'image');
+        $portfolio_form = view('laravel_portfolio::backend.portfolio.view.edit_item', compact('portfolio', 'tags', 'default_img', 'load_default_img_item', 'multiLang', 'active_lang_title', 'portfolioFileLoad', 'portfolioFile'))->render();
+        $res =
+            [
+                'success' => true,
+                'portfolio_item_edit_view' => $portfolio_form
             ];
         throw new HttpResponseException(
             response()
@@ -339,11 +425,43 @@ class PortfolioController extends Controller
 
     public function editPortfolio(Request $request)
     {
+        $item = Category::find(LFM_GetDecodeId($request->item_id));
+        $item->title = $request->title;
+        $item->parent_id = $request->parent_id;
+        $item->lang_id = $request->lang_id;
+        if ($item->parent_id)
+        {
+            $parent = Category::find($item->parent_id);
+            $item->lang_id = $parent->lang_id;
+        }
+        if (auth()->check())
+        {
+            $auth = auth()->id();
+            $item->created_by = auth()->id();
+        }
+        else
+        {
+            $auth = 0;
+
+        }
+        $item->save();
+
+        $saveDefaultFile = LFM_SaveSingleFile($item, 'default_img', 'LoadDefaultImg', 'default_img_options');
+        $res['tag'] = LTS_saveTag($item, $request->tag, 'tag', 'tags', 'sync');
+        $res =
+            [
+                'success' => true,
+                'default_img' => $saveDefaultFile,
+                'title' => "ثبت آیتم",
+            ];
+
+        return $res;
+    }
+
+    public function editPortfolioItem(Request $request)
+    {
         $item = Portfilio::find(LFM_GetDecodeId($request->item_id));
         $item->title = $request->title;
-        $item->skills = $request->skills;
-        $item->clients = $request->clients;
-        $item->link = $request->link;
         $item->description = $request->description;
         if (auth()->check())
         {
@@ -355,42 +473,16 @@ class PortfolioController extends Controller
             $auth = 0;
 
         }
-        if ($request->lang_id)
-        {
-            $lang_id = $request->lang_id;
-            $item->lang_id = $lang_id;
-        }
         $item->save();
-
-        $saveDefaultFile = LFM_SaveSingleFile($item, 'default_img', 'LoadDefaultImg', 'default_img_options');
+        $saveDefaultFile = LFM_SaveSingleFile($item, 'default_img', 'LoadDefaultImgItem', 'default_img_options');
         $savePortfolioFiles = LFM_SaveMultiFile($item, 'editPortfolioFile', 'image', 'files', 'sync');
-        $tags_id = [] ;
-        foreach ($request->tag as $tag)
-        {
-            if ((int)$tag == 0)
-            {
-                $tags_id[]=$this->setNewTag($tag,$lang_id,$auth);
-            }
-            else
-            {
-                $find = Tag::find((int)$tag);
-                if(isset($find))
-                {
-                    $tags_id[]=$find->id ;
-                }
-                else
-                {
-                    $tags_id[]=$this->setNewTag($tag,$lang_id,$auth);
-                }
-            }
-        }
-        $res['tag'] = LTS_saveTag($item, $tags_id, 'tag', 'tags', 'sync');
+        $res['tag'] = LTS_saveTag($item, $request->tag, 'tag', 'tags', 'sync');
         $res =
             [
-                'success'     => true,
+                'success' => true,
                 'default_img' => $saveDefaultFile,
-                'files'       => $savePortfolioFiles,
-                'title'       => "ثبت آیتم",
+                'files' => $savePortfolioFiles,
+                'title' => "ثبت آیتم",
             ];
 
         return $res;
@@ -416,7 +508,7 @@ class PortfolioController extends Controller
         $res =
             [
                 'success' => true,
-                'title'   => "ثبت نمونه کار",
+                'title' => "ثبت نمونه کار",
                 'message' => 'نمونه کار با موفقیت ثبت شد.'
             ];
 
@@ -488,23 +580,83 @@ class PortfolioController extends Controller
         return createPortfolioItem($item_id, $lang_id);
     }
 
-    public function getPortfolioFromVue(Request $request)
+    public function setNewTag($tag, $lang_id, $auth)
     {
-        $lang_id = $request->lang_id;
-        $res['portfolios'] = Portfilio::with('portfolioSimilars', 'tags', 'files')->where('lang_id', $lang_id)->get();
-        $res['filters'] = Tag::with('portfolios')->where('lang_id', $lang_id)->get();
-
-        return $res;
-    }
-
-    public function setNewTag($tag,$lang_id,$auth)
-    {
-        $t= new Tag;
+        $t = new Tag;
         $t->title = $tag;
         $t->lang_id = $lang_id;
         $t->created_by = $auth;
-        $t->save() ;
-        return $t->id ;
+        $t->save();
+        return $t->id;
+    }
+
+    public function getAddPortfolioItemForm(Request $request)
+    {
+        $option_default_img = ['size_file' => 2000, 'max_file_number' => 1, 'true_file_extension' => ['png', 'jpg']];
+        $option_port_file = ['size_file' => 2000, 'max_file_number' => 2, 'true_file_extension' => ['png', 'jpg']];
+        $default_img_item = LFM_CreateModalFileManager('DefaultImgItem', $option_default_img, 'insert', 'showDefaultImageItem', 'portfolio_add_item_tab', false, false, 'انتخاب فایل تصویر', 'btn-block', 'fa fa-folder-open font_button mr-2');
+        $portfolioFile = LFM_CreateModalFileManager('PortfolioFile', $option_port_file, 'insert', 'showportfolioFile', false,
+            false, false, 'انتخاب فایل تصویر', 'btn-block', 'fa fa-folder-open font_button mr-2');
+        $lang_id = $request->lang_id;
+        $category_id = $request->item_id;
+        $port_form = view('laravel_portfolio::backend.portfolio.view.add_item', compact('category_id','lang_id','default_img_item','portfolioFile'))->render();
+        $res =
+            [
+                'status'           => "1",
+                'status_type'      => "success",
+                'portfolio_add_item' => $port_form
+            ];
+        throw new HttpResponseException(
+            response()
+                ->json($res, 200)
+                ->withHeaders(['Content-Type' => 'text/plain', 'charset' => 'utf-8'])
+        );
+    }
+
+    public function getPortfolioFromVue(Request $request)
+    {
+        $lang_id = $request->lang_id;
+        $category_id = $request->category_id;
+        $res['categories'] = Category::where([
+            ['lang_id', $lang_id],
+            ['parent_id', $category_id],
+        ])->get();
+        $res['portfolios'] = Portfilio::with('portfolioSimilars', 'tags', 'files')->where([
+            ['lang_id', $lang_id],
+            ['category_id', $category_id],
+        ])->get();
+        if($category_id !=0)
+        {
+            $myCategory = Category::find($category_id);
+        }
+        else
+        {
+            $myCategory = [] ;
+        }
+        $res['lang'] = (string)app()->getLocale();
+        $res['myCategory'] = $myCategory ;
+        $res['filters'] = Tag::with(['portfolios'=>function($e) use($category_id){
+            $e->where('category_id',$category_id);
+        }])->where('lang_id', $lang_id)->get();
+        $res['h_b_color'] = config('laravel_portfolio.header_back_color');
+        $res['h_f_color'] = config('laravel_portfolio.header_font_color');
+        return $res;
+    }
+
+    public function getPort (Request $request)
+    {
+        $item_id = LFM_GetDecodeId($request->item_id);
+        $item = Portfilio::with('portfolioSimilars', 'tags', 'files')->where('id',$item_id)->first();
+        if(isset($item))
+        {
+            $res['item'] = $item ;
+        }
+        else
+        {
+            $res['item'] = [] ;
+        }
+        return $res ;
+
     }
 
 

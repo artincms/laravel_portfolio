@@ -1,10 +1,12 @@
 <template>
-    <div class="lpm_container" style="direction: rtl">
-        <h2 id="single_portfolio_title"><label>{{item.title}}</label></h2>
-        <div class="lpm_row">
-            <div class="lpm_col-md-12">
+    <div style="    margin-top: 30px;">
+        <div class="">
+            <div class="lpm_col-md-12" style="position:relative">
                 <transition name="descFade"  :duration="{ enter: 500, leave: 800 }">
-                    <div class="lpm_col-md-6" v-html="item.description"></div>
+                    <div class="lpm_col-md-6">
+                        <h2 id="single_portfolio_title"><label>{{item.title}}</label></h2>
+                        <div  v-html="item.description"></div>
+                    </div>
                 </transition>
                 <div class="lpm_col-md-6">
                     <div id="myCarousel" class="carousel slide" data-ride="carousel">
@@ -15,19 +17,20 @@
                             </vue-flux>
                         </div>
                     </div>
+                    <button @click="$parent.getPortfolio(item.category_id)" class="lpm_btm btn_item_return">{{t('return')}}</button>
                 </div>
             </div>
             <div class="clearfix"></div>
             <div class="lpm_col_md_12 margin_top" style="margin-top: 5%;">
                 <div class="text_center">
                     <h3 class="lpm_border-success">
-                        <span class="heading_border bg-success">
-                           پروژه های مرتبط
+                        <span class="heading_border" style="color:#0c0c0c!important;">
+                           {{t('related_project')}}
                         </span>
                     </h3>
                 </div>
                 <div v-for="port in item.portfolio_similars" class="lpm_project_images">
-                    <a href="#"><img src="http://demo.joshadmin.com/assets/images/gallery/3.jpg" class="img-fluid" style="width: 250px;height:169px"></a>
+                    <div class="pointer" @click="changePort(port.encode_id)"><img :src="'/LFM/DownloadFile/ID/'+port.encode_file_id+'/small/404.png/100/410/225'" class="img-fluid" style="width: 250px;height:169px"></div>
                 </div>
             </div>
         </div>
@@ -65,6 +68,15 @@
                     return images;
                 }
         },
+        methods: {
+            changePort:function (encode_id) {
+                axios.post("/LPM/getPort", {item_id:encode_id}).then(response => {
+                    this.$nextTick(() =>{
+                        this.$parent.setShowItem(response.data.item);
+                    })
+                });
+            }
+        }
     }
 </script>
 
@@ -86,11 +98,12 @@
         float: right;
     }
     .descFade-enter-active, .descFade-leave-active {
-        transition: all 1s;
+        transition: all 300ms ease-out
     }
     .descFade-enter, .descFade-leave-to /* .list-leave-active below version 2.1.8 */ {
         opacity: 0;
-        transform: translateX(30px);
+        transform: translateX(0px);
+        transition-duration: 3s;
     }
 
 </style>

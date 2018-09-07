@@ -1,6 +1,20 @@
 <div class="space-20"></div>
 <form id="frm_edit_portfolio" class="form-horizontal" name="frm_edit_portfolio">
     <input type="hidden" name="item_id" value="{{$portfolio->encode_id}}">
+    @if($multiLang)
+    <div class="form-group row fg_lang">
+        <label class="col-sm-2 control-label col-form-label label_post" for="lang">
+            <span class="more_info"></span>
+            <span class="label_lang">انتخاب زبان</span>
+        </label>
+        <div class="col-sm-6">
+            <select class="form-control" name="lang_id" id="FaqSelectLangEdit">
+                <option value="{{$portfolio->lang_id}}" value="-1">{{$active_lang_title}}</option>
+            </select>
+        </div>
+        <div class="col-sm-4 messages"></div>
+    </div>
+    @endif
     <div class="form-group row fg_title">
         <label class="col-sm-2 control-label col-form-label label_post" for="title">
             <span class="more_info"></span>
@@ -10,6 +24,42 @@
             <input name="title" value="{{$portfolio->title}}" class="form-control" id="portfolio_title" tab="1">
         </div>
         <div class="col-sm-4 messages"></div>
+    </div>
+    <div class="form-group row fg_title">
+        <label class="col-sm-2 control-label col-form-label label_post" for="title">
+            <span class="more_info"></span>
+            <span class="label_skills">مهارت</span>
+        </label>
+        <div class="col-sm-6">
+            <input name="skills" class="form-control" id="portfolio_skills" value="{{$portfolio->skills}}" tab="1">
+        </div>
+        <div class="col-sm-4 messages"></div>
+    </div>
+    <div class="form-group row fg_title">
+        <label class="col-sm-2 control-label col-form-label label_post" for="title">
+            <span class="more_info"></span>
+            <span class="label_clients">مشتری</span>
+        </label>
+        <div class="col-sm-6">
+            <input name="clients" class="form-control" value="{{$portfolio->clients}}" id="portfolio_clients" tab="1">
+        </div>
+        <div class="col-sm-4 messages"></div>
+    </div>
+    <div class="form-group row fg_title">
+        <label class="col-sm-2 control-label col-form-label label_post" for="title">
+            <span class="more_info"></span>
+            <span class="label_link">لینک</span>
+        </label>
+        <div class="col-sm-6">
+            <input name="link" value="{{$portfolio->link}}" class="form-control" id="portfolio_link" tab="1">
+        </div>
+        <div class="col-sm-4 messages"></div>
+    </div>
+    <div class="form-group row">
+        <label class="col-lg-2 col-sm-12 col-md-3 control-label col-form-label label_post" for="description">توضیحات</label>
+        <div class="col-6">
+            <textarea class="form-control" name="description" id="portfolio_eidt_description" rows="3">{!! $portfolio->description !!}</textarea>
+        </div>
     </div>
     <div class="form-group row fg_title">
         <label class="col-sm-2 control-label col-form-label label_post" for="title">
@@ -39,20 +89,18 @@
             </div>
         </div>
     </div>
-    @if($multiLang)
-        <div class="form-group row fg_lang">
-            <label class="col-sm-2 control-label col-form-label label_post" for="lang">
-                <span class="more_info"></span>
-                <span class="label_lang">انتخاب زبان</span>
-            </label>
-            <div class="col-sm-6">
-                <select class="form-control" name="lang_id" id="FaqSelectLangEdit">
-                    <option value="{{$portfolio->lang_id}}" value="-1">{{$active_lang_title}}</option>
-                </select>
+    <div class="form-group row">
+        <label class="col-lg-2 col-sm-12 col-md-3 control-label col-form-label label_post" for="description">انتخاب سایر تصاویر</label>
+        <div class="col-lg-6 col-sm-12 col-md-5">
+            <div class="card bg-light mb-3" style="">
+                <div class="card-header">{!! $portfolioFile['button'] !!}</div>
+                <div class="card-body">
+                    {!! $portfolioFile['modal_content'] !!}
+                    <div id="show_area_medium_file_eidt_img">{!! $portfolioFileLoad['view']['medium'] !!}</div>
+                </div>
             </div>
-            <div class="col-sm-4 messages"></div>
         </div>
-    @endif
+    </div>
     <div class="clearfixed"></div>
     <div class="col-12">
         <button type="submit" class="float-right btn btn-success ml-2 edit_submit_buttons"><i class="fa fa-save margin_left_8"></i>ذخیره</button>

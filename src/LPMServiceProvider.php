@@ -35,6 +35,10 @@ class LPMServiceProvider extends ServiceProvider
 		    __DIR__.'/assets' => public_path('vendor/laravel_portfolio'),
 	    ], 'public');
 
+        //publish vue components
+        $this->publishes([
+            __DIR__ . '/Components' => resource_path('assets/js/components/laravel_portfolio'),
+        ]);
 	    // for publish the sms_ir config file to the main app config folder
 	    $this->publishes([
 		    __DIR__ . '/Config/LPM.php' => config_path('laravel_portfolio.php'),
