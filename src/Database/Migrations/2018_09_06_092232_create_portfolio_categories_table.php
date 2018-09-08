@@ -22,6 +22,7 @@ class CreatePortfolioCategoriesTable extends Migration
             $table->integer('lang_id')->unsigned()->nullable()->default(0);
             $table->integer('order')->nullable()->default(0);
             $table->enum('is_active', array('0','1'))->nullable()->default('1');
+            $table->integer('created_by')->unsigned()->nullable()->default(0);
             $table->timestamps();
             $table->softDeletes();
         });
