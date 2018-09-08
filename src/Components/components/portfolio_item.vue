@@ -30,7 +30,7 @@
                     </h3>
                 </div>
                 <div v-for="port in item.portfolio_similars" class="lpm_project_images">
-                    <div class="pointer" @click="changePort(port.encode_id)"><img :src="'/LFM/DownloadFile/ID/'+port.encode_file_id+'/small/404.png/100/410/225'" class="img-fluid" style="width: 250px;height:169px"></div>
+                    <div class="pointer" @click="changePort(port.encode_related_id)"><img :src="'/LFM/DownloadFile/ID/'+port.encode_file_id+'/small/404.png/100/410/225'" class="img-fluid" style="width: 250px;height:169px"></div>
                 </div>
             </div>
         </div>
