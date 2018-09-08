@@ -8,13 +8,11 @@ return [
     // you can change default route from sms-admin to anything you want
     'backend_lpm_route_prefix' => 'LPM',
     'frontend_lpm_route_prefix' => 'LPM',
-    // SMS.ir Api Key
-    'api-key' => env('SMSIR-API-KEY','Your api key'),
     // ======================================================================
     //allow user to upload private file in filemanager
     'userModel'=>'App\User',
     'guestCanVote'=>true,
-    'multiLang'=>'faq_sampleLang',
+    'multiLang'=> env('LPM_MULTILANG', 'faq_sampleLang'),
     'header_back_color'         => '#00394d',
     'header_font_color'         => '#ffffff'
 
