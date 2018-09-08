@@ -615,16 +615,20 @@ class PortfolioController extends Controller
 
     public function getPortfolioFromVue(Request $request)
     {
+        $data=[];
         $lang_id = $request->lang_id;
         $category_id = $request->category_id;
-        $res['categories'] = Category::where([
+        $categories= Category::with('tags')->where([
             ['lang_id', $lang_id],
             ['parent_id', $category_id],
         ])->get();
-        $res['portfolios'] = Portfilio::with('portfolioSimilars', 'tags', 'files')->where([
+
+        $portfolios = Portfilio::with('portfolioSimilars', 'tags', 'files')->where([
             ['lang_id', $lang_id],
             ['category_id', $category_id],
         ])->get();
+        $data=array_merge($categories->toArray(),$portfolios->toArray(),$data);
+        $res['data']=$data;
         if($category_id !=0)
         {
             $myCategory = Category::find($category_id);
@@ -637,7 +641,11 @@ class PortfolioController extends Controller
         $res['myCategory'] = $myCategory ;
         $res['filters'] = Tag::with(['portfolios'=>function($e) use($category_id){
             $e->where('category_id',$category_id);
-        }])->where('lang_id', $lang_id)->get();
+        }
+        ,'categories'=>function($e) use($category_id){
+            $e->where('parent_id',$category_id);
+        }]
+        )->where('lang_id', $lang_id)->get();
         $res['h_b_color'] = config('laravel_portfolio.header_back_color');
         $res['h_f_color'] = config('laravel_portfolio.header_font_color');
         return $res;

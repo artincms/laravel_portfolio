@@ -12,7 +12,7 @@
                     <div id="myCarousel" class="carousel slide" data-ride="carousel">
                         <!-- Indicators -->
                         <!-- Wrapper for slides -->
-                        <div class="carousel-inner">
+                        <div class="carousel-inner" v-if="showSlider">
                             <vue-flux :options="fluxOptions" :images="fluxImages" :transitions="fluxTransitions"  ref="slider">
                             </vue-flux>
                         </div>
@@ -21,7 +21,7 @@
                 </div>
             </div>
             <div class="clearfix"></div>
-            <div class="lpm_col_md_12 margin_top" style="margin-top: 5%;">
+            <div class="lpm_col_md_12 margin_top" style="margin-top: 5%;" v-if="item.portfolio_similars.length>0">
                 <div class="text_center">
                     <h3 class="lpm_border-success">
                         <span class="heading_border" style="color:#0c0c0c!important;">
@@ -56,6 +56,7 @@
                     showControls:true,
                     showPagination:true
                 },
+                showSlider:true
             }
         },
         computed: {
@@ -65,13 +66,16 @@
                 this.item.files.forEach(function(element) {
                         images.push('/LFM/DownloadFile/ID/'+element.encode_id+'/small/404.png/100/410/250');
                     });
-                    return images;
+                return images;
                 }
         },
         methods: {
             changePort:function (encode_id) {
+                this.showSlider=false ;
                 axios.post("/LPM/getPort", {item_id:encode_id}).then(response => {
                     this.$nextTick(() =>{
+                        this.showSlider = true ;
+                        this.item=response.data.item;
                         this.$parent.setShowItem(response.data.item);
                     })
                 });

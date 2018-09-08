@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Portfilio extends Model
 {
     protected $hidden = ['default_img'];
-    protected $appends = ['encode_id','encode_file_id','url'];
+    protected $appends = ['encode_id','encode_file_id','url','type'];
     protected $table = 'lpm_portfolio';
     use softDeletes;
     protected static function boot()
@@ -27,6 +27,10 @@ class Portfilio extends Model
         return LFM_getEncodeId($this->id);
     }
 
+    public function getTypeAttribute()
+    {
+        return 'image';
+    }
     public function getEncodeFileIdAttribute()
     {
         return LFM_getEncodeId($this->default_img);
@@ -59,6 +63,5 @@ class Portfilio extends Model
     {
         return $this->morphToMany('ArtinCMS\LFM\Models\File' , 'fileable','lfm_fileables','fileable_id','file_id')->withPivot('type')->withTimestamps() ;
     }
-
 
 }

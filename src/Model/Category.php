@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Category extends Model
 {
     protected $hidden = ['default_img'];
-    protected $appends = ['encode_id','encode_file_id','url'];
+    protected $appends = ['encode_id','encode_file_id','url','type'];
     protected $table = 'lpm_categories';
     use softDeletes;
     protected static function boot()
@@ -25,6 +25,10 @@ class Category extends Model
     public function getEncodeIdAttribute()
     {
         return LFM_getEncodeId($this->id);
+    }
+    public function getTypeAttribute()
+    {
+        return 'category';
     }
 
     public function getEncodeFileIdAttribute()
