@@ -185,7 +185,7 @@
                     if (result.status == true) {
                         $('#add_portfolio_item').html(result.portfolio_add_item);
                         var frm_portfolio_add_item = document.querySelector("#frm_create_portfolio_item");
-                        init_validatejs(frm_portfolio_add_item, create_portfolio_item_constraints, ajax_func_add_portfolio_item);
+                        init_validatejs(frm_portfolio_add_item, create_portfolio_item_constraints, ajax_func_add_portfolio_item,'#frm_create_portfolio_item','.add_submit_buttons');
 
                         function ajax_func_add_portfolio_item(formElement) {
                             var formData = new FormData(formElement);
@@ -336,7 +336,7 @@
                     $('a[href="#edit_portfolio_item"]').click();
 
                     var edit_portfolio_item_form_id = document.querySelector("#frm_edit_portfolio_item");
-                    init_validatejs(edit_portfolio_item_form_id, create_portfolio_item_constraints, ajax_func_edit_portfolio_item);
+                    init_validatejs(edit_portfolio_item_form_id, create_portfolio_item_constraints, ajax_func_edit_portfolio_item,'#frm_edit_portfolio_item','.edit_submit_buttons');
                 }
                 else {
 
@@ -593,4 +593,31 @@
         $('.portfolio_manager_related_parrent_div').html('');
     });
 
+    $(document).off("click", ".btn_trash_portfolio_related ");
+    $(document).on("click", ".btn_trash_portfolio_related ", function () {
+        var item_id = $(this).data('item_id');
+        var title = $(this).data('title');
+        desc = 'بله نمونه کار مرتبط( ' + title + ' ) را حذف کن !';
+        var parameters = {item_id: item_id};
+        yesNoAlert('حذف نمونه کار مرتبط', 'از حذف نمونه کار مرتبط مطمئن هستید ؟', 'warning', desc, 'لغو', trash_portfolio_item_related, parameters);
+    });
+
+    function trash_portfolio_item_related(params) {
+        $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            url: '{!!  route('LPM.trashPortfolioRelated') !!}',
+            data: params,
+            success: function (data) {
+            if (data.success) {
+                menotify('success', data.title, data.message);
+                PortfolioManagerRelatedGridData.ajax.reload(null, false);
+            }
+            else {
+                showMessages(data.message, 'form_message_box', 'error', formElement);
+                showErrors(formElement, data.errors);
+            }
+        }
+    });
+    }
 </script>

@@ -490,27 +490,40 @@ class PortfolioController extends Controller
 
     public function addRelatedPortfolio(Request $request)
     {
-        foreach ($request->related_id as $id)
+        if($request->related_id)
         {
-            $item = new PortfilioSimilar;
-            $item->item_id = LFM_GetDecodeId($request->item_id);
-            $item->related_id = $id;
-            if (Auth::user())
+            foreach ($request->related_id as $id)
             {
-                if (isset(Auth::user()->id))
+                $item = new PortfilioSimilar;
+                $item->item_id = LFM_GetDecodeId($request->item_id);
+                $item->related_id = $id;
+                if (Auth::user())
                 {
-                    $item->created_by = Auth::user()->id;
+                    if (isset(Auth::user()->id))
+                    {
+                        $item->created_by = Auth::user()->id;
+                    }
                 }
-            }
-            $item->save();
+                $item->save();
 
+            }
+            $res =
+                [
+                    'success' => true,
+                    'title' => "ثبت نمونه کار",
+                    'message' => 'نمونه کار با موفقیت ثبت شد.'
+                ];
         }
-        $res =
-            [
-                'success' => true,
-                'title' => "ثبت نمونه کار",
-                'message' => 'نمونه کار با موفقیت ثبت شد.'
-            ];
+        else
+        {
+            $res =
+                [
+                    'success' => false,
+                    'title' => "ثبت نمونه کار",
+                    'message' => 'مشکل در اضافه کردن نمونه کار'
+                ];
+        }
+
 
         return $res;
     }
