@@ -364,7 +364,7 @@
         var checked = input.checked;
         var item_id = input.id;
         var parameters = {is_active: checked, item_id: item_id};
-        yesNoAlert('تغییر وضعیت مجموعه', 'از تغییر وضعیت مجموعه مطمئن هستید ؟', 'warning', 'بله، وضعیت مجموعه را تغییر بده!', 'لغو', set_portfolio_is_active, parameters, remove_checked, parameters);
+        yesNoAlert('تغییر وضعیت مجموعه', 'از تغییر وضعیت آیتم مطمئن هستید ؟', 'warning', 'بله، وضعیت آیتم را تغییر بده!', 'لغو', set_portfolio_is_active, parameters, remove_checked, parameters);
     }
 
     function set_portfolio_is_active(params) {

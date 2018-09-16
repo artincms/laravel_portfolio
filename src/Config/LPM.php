@@ -14,6 +14,7 @@ return [
     'guestCanVote'=>true,
     'multiLang'=> env('LPM_MULTILANG', 'faq_sampleLang'),
     'header_back_color'         => '#00394d',
-    'header_font_color'         => '#ffffff'
+    'header_font_color'         => '#ffffff',
+    'show_action_button'         => true,
 
 ];
