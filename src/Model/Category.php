@@ -42,7 +42,7 @@ class Category extends Model
 
     public function user()
     {
-        return $this->belongsTo(config('laravel_portfolio.userModel'), 'created_by');
+        return $this->belongsTo(config('laravel_portfolio.user_model'), 'created_by');
     }
 
     public function tags()

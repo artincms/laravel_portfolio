@@ -38,7 +38,7 @@
             </select>
         </div>
     </div>
-    @if($multiLang)
+    @if($multi_lang)
         <div class="form-group row fg_lang" id="showLangCategoryEdit">
             <label class="col-sm-2 control-label col-form-label label_post" for="lang">
                 <span class="more_info"></span>
@@ -72,12 +72,12 @@
 </form>
 <script>
     init_select2_data('#portfolio_parrent_edit',{!! $parrents !!});
-    init_select2_data('#FaqSelectLangEdit',{!! $multiLang !!});
+    init_select2_data('#FaqSelectLangEdit',{!! $multi_lang !!});
     function showDefaultEditImg(res) {
         $('#show_area_medium_default_eidt_img').html(res.LoadDefaultImg.view.medium);
     }
     init_select2_ajax('#showSelectTagEdit', '{{route('LTS.autoCompleteTag')}}', true,true,true);
-    init_select2_data('#FaqSelectLangEdit',{!! $multiLang !!});
+    init_select2_data('#FaqSelectLangEdit',{!! $multi_lang !!});
     var parent = $('#portfolio_parrent_edit').val();
     if(parent !=0)
     {
