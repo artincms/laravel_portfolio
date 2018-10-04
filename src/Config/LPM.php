@@ -3,8 +3,8 @@
 return [
 
     /* Important Settings */
-    'backend_lpm_middlewares'   => env('BACKEND_LPM_MIDDLEWARES', 'web'),
-    'frontend_lpm_middlewares'  => env('FRONTEND_LPM_MIDDLEWARES', 'web'),
+    'backend_lpm_middlewares'   => explode(',', env('BACKEND_LPM_MIDDLEWARES', 'web')),
+    'frontend_lpm_middlewares'  => explode(',', env('FRONTEND_LPM_MIDDLEWARES', 'web')),
     // you can change default route from sms-admin to anything you want
     'backend_lpm_route_prefix'  => env('BACKEND_LPM_ROUTE_PERFIX', 'LPM'),
     'frontend_lpm_route_prefix' => env('FRONTEND_LPM_ROUTE_PERFIX', 'LPM'),
@@ -15,5 +15,5 @@ return [
     'multi_lang'                => env('LPM_MULTI_LANG', 'LPM_SampleLang'),
     'header_back_color'         => env('LPM_HEADER_BACK_COLOR', '#00394d'),
     'header_font_color'         => env('LPM_HEADER_FONT_COLOR', '#ffffff'),
-    'show_action_button'         => env('LPM_SHOW_ACTION_BUTTON', true),
+    'show_action_button'        => env('LPM_SHOW_ACTION_BUTTON', true),
 ];
