@@ -3,11 +3,11 @@
 return [
 
     /* Important Settings */
-    'backend_lpm_middlewares'   => explode(',', env('BACKEND_LPM_MIDDLEWARES', 'web')),
-    'frontend_lpm_middlewares'  => explode(',', env('FRONTEND_LPM_MIDDLEWARES', 'web')),
+    'backend_lpm_middlewares'   => explode(',', env('BACKEND_MIDDLEWARES', 'web')),
+    'frontend_lpm_middlewares'  => explode(',', env('LPM_FRONTEND_MIDDLEWARES', 'web')),
     // you can change default route from sms-admin to anything you want
-    'backend_lpm_route_prefix'  => env('BACKEND_LPM_ROUTE_PERFIX', 'LPM'),
-    'frontend_lpm_route_prefix' => env('FRONTEND_LPM_ROUTE_PERFIX', 'LPM'),
+    'backend_lpm_route_prefix'  => env('LPM_BACKEND_ROUTE_PERFIX', 'LPM'),
+    'frontend_lpm_route_prefix' => env('LPM_FRONTEND_ROUTE_PERFIX', 'LPM'),
     // ======================================================================
     //allow user to upload private file in filemanager
     'user_model'                => env('LPM_USER_MODEL', 'App\User'),
