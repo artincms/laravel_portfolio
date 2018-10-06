@@ -31,19 +31,19 @@ class PortfolioController extends Controller
 
     public function index()
     {
-        $multiLangFunc = config('laravel_portfolio.multiLang');
+        $multi_langFunc = config('laravel_portfolio.multi_lang');
         $parrents = Category::with('parent')->get();
-        if ($multiLangFunc)
+        if ($multi_langFunc)
         {
-            $multiLang = json_encode($multiLangFunc());
+            $multi_lang = json_encode($multi_langFunc());
         }
         else
         {
-            $multiLang = false;
+            $multi_lang = false;
         }
         $option_default_img = ['size_file' => 2000, 'max_file_number' => 1, 'true_file_extension' => ['png', 'jpg']];
         $default_img = LFM_CreateModalFileManager('defaultImg', $option_default_img, 'insert', 'showDefaultImg', false, false, false, 'انتخاب فایل تصویر', 'btn-block', 'fa fa-folder-open font_button mr-2');
-        return view('laravel_portfolio::backend.portfolio.index', compact('sliderTypes', 'multiLang', 'default_img', 'parrents'));
+        return view('laravel_portfolio::backend.portfolio.index', compact('sliderTypes', 'multi_lang', 'default_img', 'parrents'));
     }
 
     public function getPortfolio(Request $request)
@@ -65,23 +65,23 @@ class PortfolioController extends Controller
 //        {
 //            $port->where('is_active', '0');
 //        }
-        $multiLangFunc = config('laravel_portfolio.multiLang');
-        if ($multiLangFunc)
+        $multi_langFunc = config('laravel_portfolio.multi_lang');
+        if ($multi_langFunc)
         {
-            $multiLang = $multiLangFunc();
+            $multi_lang = $multi_langFunc();
         }
         else
         {
-            $multiLang = false;
+            $multi_lang = false;
         }
         return DataTables::eloquent($port)
             ->editColumn('id', function ($data) {
                 return LFM_getEncodeId($data->id);
             })
-            ->addColumn('lang_name', function ($data) use ($multiLang) {
-                if ($multiLang)
+            ->addColumn('lang_name', function ($data) use ($multi_lang) {
+                if ($multi_lang)
                 {
-                    return $this->searchForId($data->lang_id, $multiLang);
+                    return $this->searchForId($data->lang_id, $multi_lang);
                 }
                 else
                 {
@@ -283,12 +283,12 @@ class PortfolioController extends Controller
 
     public function autoCompletePortfolioLang(Request $request)
     {
-        $multiLangFunc = config('laravel_portfolio.multiLang');
+        $multi_langFunc = config('laravel_portfolio.multi_lang');
         $x = $request->term;
-        $data = $multiLangFunc();
+        $data = $multi_langFunc();
         if ($x['term'] != '...')
         {
-            $data = $multiLangFunc()
+            $data = $multi_langFunc()
                 ->where("text", "LIKE", "%" . $x['term'] . "%");
         }
         $data = ['results' => $data];
@@ -373,19 +373,19 @@ class PortfolioController extends Controller
         $tags = LTS_showTag($portfolio);
         $default_img = LFM_CreateModalFileManager('LoadDefaultImg', $option_default_img, 'insert', 'showDefaultEditImg', 'portfolio_edit_tab', false, false, 'انتخاب فایل تصویر', 'btn-block', 'fa fa-folder-open font_button mr-2');
         $load_default_img = LFM_loadSingleFile($portfolio, 'default_img', 'LoadDefaultImg');
-        $multiLangFunc = config('laravel_portfolio.multiLang');
-        if ($multiLangFunc)
+        $multi_langFunc = config('laravel_portfolio.multi_lang');
+        if ($multi_langFunc)
         {
-            $multiLang = json_encode($multiLangFunc());
-            $active_lang_title = $this->searchForId($portfolio->lang_id, $multiLangFunc());
+            $multi_lang = json_encode($multi_langFunc());
+            $active_lang_title = $this->searchForId($portfolio->lang_id, $multi_langFunc());
         }
         else
         {
-            $multiLang = false;
+            $multi_lang = false;
             $active_lang_title = '';
         }
         $parrents = Category::with('parent')->get();
-        $portfolio_form = view('laravel_portfolio::backend.portfolio.view.edit', compact('portfolio', 'tags', 'default_img', 'load_default_img', 'multiLang', 'active_lang_title', 'parrents'))->render();
+        $portfolio_form = view('laravel_portfolio::backend.portfolio.view.edit', compact('portfolio', 'tags', 'default_img', 'load_default_img', 'multi_lang', 'active_lang_title', 'parrents'))->render();
         $res =
             [
                 'success' => true,
@@ -410,7 +410,7 @@ class PortfolioController extends Controller
         $portfolioFile = LFM_CreateModalFileManager('editPortfolioFile', $option_port_file, 'insert', 'showEditportfolioFile', false,
             false, false, 'انتخاب فایل تصویر', 'btn-block', 'fa fa-folder-open font_button mr-2');
         $portfolioFileLoad = LFM_LoadMultiFile($portfolio, 'editPortfolioFile', 'image');
-        $portfolio_form = view('laravel_portfolio::backend.portfolio.view.edit_item', compact('portfolio', 'tags', 'default_img', 'load_default_img_item', 'multiLang', 'active_lang_title', 'portfolioFileLoad', 'portfolioFile'))->render();
+        $portfolio_form = view('laravel_portfolio::backend.portfolio.view.edit_item', compact('portfolio', 'tags', 'default_img', 'load_default_img_item', 'multi_lang', 'active_lang_title', 'portfolioFileLoad', 'portfolioFile'))->render();
         $res =
             [
                 'success' => true,
@@ -532,14 +532,14 @@ class PortfolioController extends Controller
     {
         $item_id = LFM_GetDecodeId($request->item_id);
         $item = PortfilioSimilar::with('portfolio')->where('item_id', $item_id);
-        $multiLangFunc = config('laravel_portfolio.multiLang');
-        if ($multiLangFunc)
+        $multi_langFunc = config('laravel_portfolio.multi_lang');
+        if ($multi_langFunc)
         {
-            $multiLang = $multiLangFunc();
+            $multi_lang = $multi_langFunc();
         }
         else
         {
-            $multiLang = false;
+            $multi_lang = false;
         }
 
         return DataTables::eloquent($item)
@@ -549,10 +549,10 @@ class PortfolioController extends Controller
             ->addColumn('title', function ($data) {
                 return $data->portfolio->title;
             })
-            ->addColumn('lang_name', function ($data) use ($multiLang) {
-                if ($multiLang)
+            ->addColumn('lang_name', function ($data) use ($multi_lang) {
+                if ($multi_lang)
                 {
-                    return $this->searchForId($data->portfolio->lang_id, $multiLang);
+                    return $this->searchForId($data->portfolio->lang_id, $multi_lang);
                 }
                 else
                 {
