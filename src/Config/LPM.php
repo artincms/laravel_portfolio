@@ -10,7 +10,7 @@ return [
     'frontend_lpm_route_prefix' => 'LPM',
     // ======================================================================
     //allow user to upload private file in filemanager
-    'userModel'=>'App\User',
+    'user_model'=>'App\User',
     'guestCanVote'=>true,
     'multiLang'=> env('LPM_MULTILANG', 'faq_sampleLang'),
     'header_back_color'         => '#00394d',
